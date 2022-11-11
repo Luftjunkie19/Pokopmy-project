@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+      integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+      crossorigin=""
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Pokopmy-project</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="controll-logo">
+        <img src="./Image/Zrzut_ekranu__774_-removebg-preview.png" alt="LOGO" />
+      </div>
+
+      <div class="navigation">
+        <button class="btn">Mapa</button>
+        <button class="btn">Zawodnicy</button>
+        <button class="btn">Drużyny</button>
+        <button class="btn">Dodaj</button>
+
+        <button class="btn">
+          Rejestracja <i class="fas fa-user-shield"></i>
+        </button>
+        <button class="btn">
+          Logowanie <i class="fas fa-user-circle"></i>
+        </button>
+
+        <button class="btn">Zgłoś <i class="fas fa-wrench"></i></button>
+
+        <div class="profile">
+          <div class="nav-ctrl"></div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="sidebar">
+        <div class="options">
+          <button class="btn">Boiska</button>
+          <button class="btn">Mecze</button>
+          <button class="btn">Wydarzenia</button>
+          <button class="btn">Akademie</button>
+        </div>
+
+        <div class="events">
+          <div class="event">
+            <i class="fas fa-soccer-ball fa-3x"></i>
+            <p class="name">Name of event</p>
+            <p class="quantity">Gathered: 14/26</p>
+          </div>
+          <div class="event">
+            <i class="fas fa-soccer-ball fa-3x"></i>
+            <p class="name">Name of event</p>
+            <p class="quantity">Gathered: 14/26</p>
+          </div>
+          <div class="event">
+            <i class="fas fa-soccer-ball fa-3x"></i>
+            <p class="name">Name of event</p>
+            <p class="quantity">Gathered: 14/26</p>
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+    </div>
+    <footer class="footer">
+      <ul>
+        <li>Made</li>
+        <li>In</li>
+        <li>Poland</li>
+      </ul>
+
+      <ul>
+        <li>Welcome</li>
+        <li>to</li>
+        <li>Pokopmy!</li>
+      </ul>
+
+      <ul>
+        <li>I</li>
+        <li>am</li>
+        <li>Glad</li>
+      </ul>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
