@@ -38,55 +38,237 @@
       </div>
 
       <div class="navigation">
-        <button class="btn">Mapa</button>
-        <button class="btn">Zawodnicy</button>
-        <button class="btn">Drużyny</button>
-        <button class="btn">Dodaj</button>
+        <button class="btn nav">
+          Mapa <i class="fas fa-map-location"></i>
+        </button>
+        <button class="btn nav">Zawodnicy <i class="fas fa-user"></i></button>
+        <button class="btn nav">
+          Drużyny <i class="fas fa-people-group"></i>
+        </button>
+        <button class="btn nav">
+          Dodaj <i class="fas fa-plus-circle"></i>
+        </button>
 
-        <button class="btn">
+        <!--
+        <button class="btn nav">
           Rejestracja <i class="fas fa-user-shield"></i>
         </button>
-        <button class="btn">
+        <button class="btn nav">
           Logowanie <i class="fas fa-user-circle"></i>
         </button>
 
-        <button class="btn">Zgłoś <i class="fas fa-wrench"></i></button>
+        <button class="btn nav">Zgłoś <i class="fas fa-wrench"></i></button>
 
         <div class="profile">
           <div class="nav-ctrl"></div>
         </div>
+        -->
       </div>
     </nav>
 
     <div class="container">
-      <div class="sidebar">
-        <div class="options">
-          <button class="btn">Boiska</button>
-          <button class="btn">Mecze</button>
-          <button class="btn">Wydarzenia</button>
-          <button class="btn">Akademie</button>
+      <div class="map-container">
+        <div class="sidebar">
+          <div class="options">
+            <button class="btn option">Boiska</button>
+            <button class="btn option">Mecze</button>
+            <button class="btn option">Wydarzenia</button>
+            <button class="btn option">Akademie</button>
+          </div>
+
+          <div class="events">
+            <div class="event">
+              <i class="fas fa-soccer-ball fa-3x"></i>
+              <p class="name">Name of event</p>
+              <p class="quantity">Gathered: 14/26</p>
+            </div>
+            <div class="event">
+              <i class="fas fa-soccer-ball fa-3x"></i>
+              <p class="name">Name of event</p>
+              <p class="quantity">Gathered: 14/26</p>
+            </div>
+            <div class="event">
+              <i class="fas fa-soccer-ball fa-3x"></i>
+              <p class="name">Name of event</p>
+              <p class="quantity">Gathered: 14/26</p>
+            </div>
+            <div class="event">
+              <i class="fas fa-soccer-ball fa-3x"></i>
+              <p class="name">Name of event</p>
+              <p class="quantity">Gathered: 14/26</p>
+            </div>
+          </div>
         </div>
 
-        <div class="events">
-          <div class="event">
-            <i class="fas fa-soccer-ball fa-3x"></i>
-            <p class="name">Name of event</p>
-            <p class="quantity">Gathered: 14/26</p>
-          </div>
-          <div class="event">
-            <i class="fas fa-soccer-ball fa-3x"></i>
-            <p class="name">Name of event</p>
-            <p class="quantity">Gathered: 14/26</p>
-          </div>
-          <div class="event">
-            <i class="fas fa-soccer-ball fa-3x"></i>
-            <p class="name">Name of event</p>
-            <p class="quantity">Gathered: 14/26</p>
+        <div id="map"></div>
+      </div>
+
+      <div class="content-box search-players">
+        <div class="head">
+          <h1 class="head-title">Search for Player</h1>
+          <p class="under-title">
+            Find your Friend or find someother players, you want to search for.
+          </p>
+        </div>
+
+        <div class="control-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search for a player"
+          />
+          <button class="search-btn">
+            Search <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <div class="result-holder">
+          <div class="player">
+            <div class="controll-logo">
+              <img
+                src="https://i.pinimg.com/564x/26/8c/09/268c098728a5a0612dec070c58129dd9.jpg"
+                alt="Avatar Zawodnika"
+              />
+            </div>
+            <h2 class="club-name">Kris_2013</h2>
+            <p class="position">pozycja: PO</p>
+            <button class="btn show-stats">Statistics</button>
           </div>
         </div>
       </div>
-      <div id="map"></div>
+
+      <div class="content-box search-teams">
+        <div class="head">
+          <h1 class="head-title">Search for Team</h1>
+          <p class="under-title">
+            Find any team to join and beat with them your opponents.
+          </p>
+        </div>
+
+        <div class="control-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search for a team"
+          />
+          <button class="search-btn">
+            Search <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="result-holder">
+          <div class="team">
+            <div class="controll-logo">
+              <img
+                src="https://images.unsplash.com/photo-1584329492930-56bb3e10d492?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+                alt="Logo klubu"
+              />
+            </div>
+            <small>Name:</small>
+            <h2 class="club-name">Pokopmy Prawobrzeże KS</h2>
+            <small>Founded in:</small>
+            <p class="date-club">12.11.1982</p>
+            <button class="btn show-stats">Statistics</button>
+          </div>
+          <div class="team">
+            <div class="controll-logo">
+              <img
+                src="https://images.unsplash.com/photo-1584329492930-56bb3e10d492?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+                alt="Logo klubu"
+              />
+            </div>
+            <small>Name:</small>
+            <h2 class="club-name">Pokopmy Prawobrzeże KS</h2>
+            <small>Founded in:</small>
+            <p class="date-club">31.05.1921</p>
+            <button class="btn show-stats">Statistics</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-box">
+        <div class="head">
+          <h1 class="head-title">Add whatever you want!</h1>
+          <p class="under-title">Fill the form and send us your proposal 😁</p>
+        </div>
+
+        <form class="form">
+          <div class="control-field data">
+            <label for="type">What do you want to add?</label>
+            <select name="type" id="type">
+              <option value="playground">Playground</option>
+              <option value="event">Event</option>
+              <option value="academy">Academy</option>
+              <option value="match">Match</option>
+            </select>
+          </div>
+
+          <div class="control-field data">
+            <p>Where do you want to place it?</p>
+            <div class="separate">
+              <label for="latidude">Latidude:</label>
+              <input
+                type="text"
+                id="latidude"
+                placeholder="Enter the latidude"
+              />
+            </div>
+            <div class="separate">
+              <label for="longitude">Longitude:</label>
+              <input
+                type="text"
+                id="longitude"
+                placeholder="Enter the longitude"
+              />
+            </div>
+          </div>
+
+          <div class="control-field data">
+            <p class="name-of-place">How is this place named?</p>
+
+            <div class="separate">
+              <label for="placename">Name of the place:</label>
+              <input
+                type="text"
+                id="placename"
+                placeholder="Enter the name of place"
+              />
+            </div>
+          </div>
+
+          <div class="control-field data">
+            <p class="kind-event">What kind of event will it be?</p>
+
+            <input
+              type="text"
+              id="kind-event"
+              placeholder="What kind of event ?"
+            />
+          </div>
+
+          <div class="control-field data">
+            <p class="Persons-quantity">How many persons do you need?</p>
+
+            <div class="btns-box">
+              <button class="btn decrease-btn">
+                <i class="fas fa-minus"></i>
+              </button>
+              <div class="persons-needed">0</div>
+              <button class="btn increase-btn">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-field data">
+            <p class="place-ask">Some more information?</p>
+
+            <label for="desciption">Describe it:</label>
+            <textarea id="description" cols="45" rows="10" res></textarea>
+          </div>
+        </form>
+      </div>
     </div>
+
     <footer class="footer">
       <ul>
         <li>Made</li>
@@ -104,6 +286,12 @@
         <li>I</li>
         <li>am</li>
         <li>Glad</li>
+      </ul>
+
+      <ul>
+        <li>To</li>
+        <li>see</li>
+        <li>You</li>
       </ul>
     </footer>
 

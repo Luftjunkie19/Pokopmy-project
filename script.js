@@ -1,4 +1,10 @@
 const mapEl = document.querySelector("#map");
+const navigationBtns = document.querySelectorAll(".btn.nav");
+const optionsBts = document.querySelectorAll(".btn.option");
+const contentBoxes = document.querySelectorAll(".content-box");
+const mapContainer = document.querySelector(".map-container");
+
+const selectEl = document.querySelector("select");
 
 let footballPlaygrounds = [
   {
@@ -64,25 +70,39 @@ function success(position) {
 
   console.log(position.coords.latitude, position.coords.longitude);
 
-  let map = L.map("map").setView([latidude, longitude], 14);
+  showMap(latidude, longitude);
+}
+
+function showMarkers(ground, map) {
+  let marker = L.marker([ground.lat, ground.lng]).addTo(map);
+
+  marker.bindPopup(`${ground.popup}`);
+}
+
+function showMap(lat, lng) {
+  let map = L.map("map").setView([lat, lng], 14);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  footballPlaygrounds.forEach((ground) => {
-    let marker = L.marker([ground.lat, ground.lng]).addTo(map);
+  /*map.on("click", (e) => {
+    setYourOwnMarker(e, map);
+  });*/
 
-    marker.bindPopup(`${ground.popup}`);
+  navigationBtns[0].classList.add("active");
+
+  footballPlaygrounds.forEach((ground) => {
+    showMarkers(ground, map);
   });
 }
 
-function fail() {
-  mapEl.innerHTML = `<h2>Sorry, but</h2>
-  <p>You haven't enabled us your Location</p>`;
-  mapEl.style.flexDirection = "column";
-}
+/*function setYourOwnMarker(e, map) {
+  let marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+  footballPlaygrounds.push(marker);
+  console.log(footballPlaygrounds);
+}*/
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -92,3 +112,49 @@ function getLocation() {
   }
 }
 getLocation();
+
+function fail() {
+  mapEl.innerHTML = `<h2>Sorry, but</h2>
+  <p>You haven't enabled us your Location</p>`;
+  mapEl.style.flexDirection = "column";
+}
+
+function removeActive() {
+  navigationBtns.forEach((btn) => {
+    btn.classList.remove("active");
+  });
+}
+
+function hideOn() {
+  contentBoxes.forEach((box) => {
+    box.style.display = "none";
+  });
+}
+
+navigationBtns.forEach((btn, i) => {
+  btn.addEventListener("click", () => {
+    removeActive();
+    if (i === 0) {
+      mapContainer.style.display = "grid";
+      navigationBtns[i].classList.add("active");
+      hideOn();
+    } else {
+      hideOn();
+      mapContainer.style.display = "none";
+      contentBoxes[i - 1].style.display = "flex";
+      navigationBtns[i].classList.add("active");
+    }
+  });
+});
+
+function clValue() {
+  if (selectEl.value === "event" || selectEl.value === "match") {
+    console.log("Find some friends in real world, ok?");
+  } else {
+    console.log(`Wow you've got a ${selectEl.value}, you're incredible Boi.`);
+  }
+}
+
+selectEl.addEventListener("change", clValue);
+
+console.log(contentBoxes);

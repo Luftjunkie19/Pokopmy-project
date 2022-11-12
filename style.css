@@ -22,6 +22,7 @@ body {
 .controll-logo {
   width: 150px;
   height: 100px;
+  padding: 10px;
 }
 
 .controll-logo img {
@@ -43,7 +44,16 @@ body {
   font-size: 14px;
 }
 
-.container {
+.active {
+  background-color: rgb(0, 123, 255);
+  transition: all 0.5s;
+}
+
+.on {
+  display: flex;
+}
+
+.map-container {
   display: grid;
   grid-template-areas:
     "side map map map map map map map"
@@ -64,6 +74,7 @@ body {
   background-color: black;
   height: 100vh;
   grid-area: side;
+  overflow-y: scroll;
 }
 
 .events {
@@ -71,7 +82,7 @@ body {
 }
 
 .event {
-  padding: 15px;
+  padding: 10px;
   background-color: #5bc2e7;
   display: flex;
   justify-content: space-around;
@@ -95,4 +106,135 @@ ul {
 
 li {
   text-align: center;
+}
+
+input {
+  border: 0;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background: none;
+  color: white;
+  font-family: inherit;
+  padding: 5px;
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: white;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  font-family: "Montserrat", "sans-serif";
+  background-color: black;
+  border-radius: 5px;
+}
+
+.content-box {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #5bc2e7;
+}
+
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #1a789b;
+  width: 100vw;
+}
+
+.control-form {
+  margin-top: 10px;
+}
+
+.result-holder {
+  padding: 15px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+}
+
+.team,
+.player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #074359;
+  border-radius: 5px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 15px;
+  margin: 10px;
+}
+
+.control-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 15px;
+  background-color: rgb(0, 51, 73);
+  border-radius: 5px;
+}
+
+.separate {
+  margin: 10px;
+}
+
+select {
+  text-align: center;
+  outline: 0;
+  background-color: #5bc2e7;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 10px;
+  transition: all 0.5;
+}
+
+select:active,
+select:hover {
+  background-color: rgb(9, 80, 139);
+}
+
+option {
+  border: none;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  outline: none;
+  border: none;
+  font-family: inherit;
+}
+
+.btns-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.decrease-btn {
+  background-color: red;
+}
+
+.increase-btn {
+  background-color: greenyellow;
 }
