@@ -49,10 +49,6 @@ body {
   transition: all 0.5s;
 }
 
-.on {
-  display: flex;
-}
-
 .map-container {
   display: grid;
   grid-template-areas:
@@ -77,8 +73,18 @@ body {
   overflow-y: scroll;
 }
 
-.events {
+.options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #7880f8;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.side-option {
   color: black;
+  display: none;
 }
 
 .event {
@@ -86,7 +92,7 @@ body {
   background-color: #5bc2e7;
   display: flex;
   justify-content: space-around;
-  margin: 10px;
+  margin: 15px;
   border-radius: 5px;
   color: white;
 }
@@ -180,6 +186,10 @@ input::placeholder {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 15px;
   margin: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 51, 73);
+  border-radius: 5px;
 }
 
 .control-field {
@@ -188,8 +198,6 @@ input::placeholder {
   align-items: center;
   flex-direction: column;
   padding: 15px;
-  background-color: rgb(0, 51, 73);
-  border-radius: 5px;
 }
 
 .separate {
@@ -197,7 +205,6 @@ input::placeholder {
 }
 
 select {
-  text-align: center;
   outline: 0;
   background-color: #5bc2e7;
   color: white;
@@ -206,6 +213,7 @@ select {
   padding: 10px;
   margin-top: 10px;
   transition: all 0.5;
+  font-family: inherit;
 }
 
 select:active,
@@ -223,6 +231,10 @@ textarea {
   outline: none;
   border: none;
   font-family: inherit;
+  padding: 10px;
+  background: none;
+  color: white;
+  font-size: 16px;
 }
 
 .btns-box {
@@ -237,4 +249,48 @@ textarea {
 
 .increase-btn {
   background-color: greenyellow;
+}
+
+.btn-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn {
+  background-color: darkblue;
+}
+
+.teams {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.logo {
+  padding: 5px;
+  margin: 5px;
+}
+
+.name,
+.game-date {
+  display: flex;
+  align-items: center;
+}
+
+.versus {
+  text-align: center;
+}
+
+.small-logo {
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+}
+
+.small-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

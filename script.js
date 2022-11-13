@@ -1,10 +1,18 @@
 const mapEl = document.querySelector("#map");
 const navigationBtns = document.querySelectorAll(".btn.nav");
-const optionsBts = document.querySelectorAll(".btn.option");
+const optionsBtns = document.querySelectorAll(".btn.option");
 const contentBoxes = document.querySelectorAll(".content-box");
 const mapContainer = document.querySelector(".map-container");
-
 const selectEl = document.querySelector("select");
+const personNeededEl = document.querySelector(".persons-needed");
+const increaseBtn = document.querySelector(".increase-btn");
+const decreaseBtn = document.querySelector(".decrease-btn");
+const placeFormFields = document.querySelectorAll(".place-data");
+const eventFormFields = document.querySelectorAll(".event-data");
+const descriptionData = document.querySelector("textarea");
+const sideOptions = document.querySelectorAll(".side-option");
+
+console.log(placeFormFields, eventFormFields);
 
 let footballPlaygrounds = [
   {
@@ -62,6 +70,26 @@ let footballPlaygrounds = [
     popup:
       "Orlik ze sztuczną nawierzchnią SP 71 im. Bogusława X i Anny Jagielonki, Szczecin Prawobrzeże.",
   },
+  {
+    lat: 53.364586126592314,
+    lng: 14.5958746,
+    popup: "Orlik przy SP 12, Szczecin Prawobrzeże.",
+  },
+  {
+    lat: 53.43776572154318,
+    lng: 14.745676436553724,
+    popup: "Boisko OKS Jeziorak, Szczecin Prawobrzeże.",
+  },
+  {
+    lat: 53.34171384117264,
+    lng: 14.76252451756204,
+    popup: "Boisko Iskierki Szczecin, Szczecin Prawobrzeże.",
+  },
+  {
+    lat: 53.37339675697874,
+    lng: 14.674364563732393,
+    popup: "Komin Arena, Boisko Kasty Majowe, Szczecin Prawobrzeże.",
+  },
 ];
 
 function success(position) {
@@ -87,22 +115,16 @@ function showMap(lat, lng) {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  /*map.on("click", (e) => {
-    setYourOwnMarker(e, map);
-  });*/
-
   navigationBtns[0].classList.add("active");
 
   footballPlaygrounds.forEach((ground) => {
     showMarkers(ground, map);
   });
-}
 
-/*function setYourOwnMarker(e, map) {
-  let marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-  footballPlaygrounds.push(marker);
-  console.log(footballPlaygrounds);
-}*/
+  map.on("click", (e) => {
+    console.log(e.latlng);
+  });
+}
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -119,27 +141,43 @@ function fail() {
   mapEl.style.flexDirection = "column";
 }
 
-function removeActive() {
-  navigationBtns.forEach((btn) => {
+function removeActive(btns) {
+  btns.forEach((btn) => {
     btn.classList.remove("active");
   });
 }
 
-function hideOn() {
-  contentBoxes.forEach((box) => {
+function hideOn(boxes) {
+  boxes.forEach((box) => {
     box.style.display = "none";
   });
 }
 
+function displayFlex(boxes) {
+  boxes.forEach((field) => {
+    field.style.display = "flex";
+  });
+}
+
+optionsBtns.forEach((btn, i) => {
+  hideOn(sideOptions);
+  btn.addEventListener("click", () => {
+    removeActive(optionsBtns);
+    hideOn(sideOptions);
+    btn.classList.add("active");
+    sideOptions[i].style.display = `block`;
+  });
+});
+
 navigationBtns.forEach((btn, i) => {
   btn.addEventListener("click", () => {
-    removeActive();
+    removeActive(navigationBtns);
     if (i === 0) {
       mapContainer.style.display = "grid";
       navigationBtns[i].classList.add("active");
-      hideOn();
+      hideOn(contentBoxes);
     } else {
-      hideOn();
+      hideOn(contentBoxes);
       mapContainer.style.display = "none";
       contentBoxes[i - 1].style.display = "flex";
       navigationBtns[i].classList.add("active");
@@ -147,14 +185,36 @@ navigationBtns.forEach((btn, i) => {
   });
 });
 
-function clValue() {
+function showSuitableForm() {
   if (selectEl.value === "event" || selectEl.value === "match") {
-    console.log("Find some friends in real world, ok?");
+    hideOn(placeFormFields);
+    displayFlex(eventFormFields);
   } else {
-    console.log(`Wow you've got a ${selectEl.value}, you're incredible Boi.`);
+    hideOn(eventFormFields);
+    displayFlex(placeFormFields);
   }
 }
 
-selectEl.addEventListener("change", clValue);
-
 console.log(contentBoxes);
+
+let quantityOfPlayers = 0;
+
+function increasePlayers(e) {
+  e.preventDefault();
+  quantityOfPlayers++;
+  personNeededEl.innerText = quantityOfPlayers;
+}
+
+function decreasePlayers(e) {
+  e.preventDefault();
+  if (quantityOfPlayers <= 0) {
+    quantityOfPlayers = 0;
+  } else {
+    quantityOfPlayers--;
+    personNeededEl.innerText = quantityOfPlayers;
+  }
+}
+
+increaseBtn.addEventListener("click", increasePlayers);
+decreaseBtn.addEventListener("click", decreasePlayers);
+selectEl.addEventListener("change", showSuitableForm);

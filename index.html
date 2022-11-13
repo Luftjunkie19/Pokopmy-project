@@ -70,13 +70,13 @@
       <div class="map-container">
         <div class="sidebar">
           <div class="options">
-            <button class="btn option">Boiska</button>
-            <button class="btn option">Mecze</button>
             <button class="btn option">Wydarzenia</button>
+            <button class="btn option">Mecze</button>
+            <button class="btn option">Boiska</button>
             <button class="btn option">Akademie</button>
           </div>
 
-          <div class="events">
+          <div class="side-option">
             <div class="event">
               <i class="fas fa-soccer-ball fa-3x"></i>
               <p class="name">Name of event</p>
@@ -96,6 +96,110 @@
               <i class="fas fa-soccer-ball fa-3x"></i>
               <p class="name">Name of event</p>
               <p class="quantity">Gathered: 14/26</p>
+            </div>
+          </div>
+
+          <div class="side-option">
+            <div class="event">
+              <div class="teams">
+                <div class="small-logo home">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
+                    alt="Home-img"
+                  />
+                </div>
+                <p class="versus">VS</p>
+                <div class="small-logo opponent">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
+                    alt="Away-img"
+                  />
+                </div>
+              </div>
+              <p class="name">Home vs Away</p>
+              <p class="game-date">12.12.2022</p>
+            </div>
+            <div class="event">
+              <div class="teams">
+                <div class="small-logo home">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
+                    alt="Home-img"
+                  />
+                </div>
+                <p class="versus">VS</p>
+                <div class="small-logo opponent">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
+                    alt="Away-img"
+                  />
+                </div>
+              </div>
+              <p class="name">Home vs Away</p>
+              <p class="game-date">12.12.2022</p>
+            </div>
+            <div class="event">
+              <div class="teams">
+                <div class="small-logo home">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
+                    alt="Home-img"
+                  />
+                </div>
+                <p class="versus">VS</p>
+                <div class="small-logo opponent">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
+                    alt="Away-img"
+                  />
+                </div>
+              </div>
+              <p class="name">Home vs Away</p>
+              <p class="game-date">12.12.2022</p>
+            </div>
+          </div>
+
+          <div class="side-option">
+            <div class="event">
+              <div class="teams">
+                <div class="small-logo home">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
+                    alt="Home-img"
+                  />
+                </div>
+                <p class="versus">VS</p>
+                <div class="small-logo opponent">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
+                    alt="Away-img"
+                  />
+                </div>
+              </div>
+              <p class="name">Home vs Away</p>
+              <p class="game-date">12.12.2022</p>
+            </div>
+          </div>
+
+          <div class="side-option">
+            <div class="event">
+              <div class="teams">
+                <div class="small-logo home">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
+                    alt="Home-img"
+                  />
+                </div>
+                <p class="versus">VS</p>
+                <div class="small-logo opponent">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
+                    alt="Away-img"
+                  />
+                </div>
+              </div>
+              <p class="name">Home vs Away</p>
+              <p class="game-date">12.12.2022</p>
             </div>
           </div>
         </div>
@@ -202,7 +306,7 @@
             </select>
           </div>
 
-          <div class="control-field data">
+          <div class="control-field place-data">
             <p>Where do you want to place it?</p>
             <div class="separate">
               <label for="latidude">Latidude:</label>
@@ -222,7 +326,7 @@
             </div>
           </div>
 
-          <div class="control-field data">
+          <div class="control-field place-data">
             <p class="name-of-place">How is this place named?</p>
 
             <div class="separate">
@@ -235,7 +339,7 @@
             </div>
           </div>
 
-          <div class="control-field data">
+          <div class="control-field event-data">
             <p class="kind-event">What kind of event will it be?</p>
 
             <input
@@ -245,7 +349,7 @@
             />
           </div>
 
-          <div class="control-field data">
+          <div class="control-field event-data">
             <p class="Persons-quantity">How many persons do you need?</p>
 
             <div class="btns-box">
@@ -259,13 +363,16 @@
             </div>
           </div>
 
-          <div class="control-field data">
+          <div class="control-field description-data">
             <p class="place-ask">Some more information?</p>
 
             <label for="desciption">Describe it:</label>
             <textarea id="description" cols="45" rows="10" res></textarea>
           </div>
         </form>
+        <div class="btn-field">
+          <button class="btn submit-btn">Submit</button>
+        </div>
       </div>
     </div>
 
