@@ -76,30 +76,9 @@
             <button class="btn option">Akademie</button>
           </div>
 
-          <div class="side-option">
-            <div class="event">
-              <i class="fas fa-soccer-ball fa-3x"></i>
-              <p class="name">Name of event</p>
-              <p class="quantity">Gathered: 14/26</p>
-            </div>
-            <div class="event">
-              <i class="fas fa-soccer-ball fa-3x"></i>
-              <p class="name">Name of event</p>
-              <p class="quantity">Gathered: 14/26</p>
-            </div>
-            <div class="event">
-              <i class="fas fa-soccer-ball fa-3x"></i>
-              <p class="name">Name of event</p>
-              <p class="quantity">Gathered: 14/26</p>
-            </div>
-            <div class="event">
-              <i class="fas fa-soccer-ball fa-3x"></i>
-              <p class="name">Name of event</p>
-              <p class="quantity">Gathered: 14/26</p>
-            </div>
-          </div>
+          <div class="side-option events"></div>
 
-          <div class="side-option">
+          <div class="side-option matches">
             <div class="event">
               <div class="teams">
                 <div class="small-logo home">
@@ -159,7 +138,7 @@
             </div>
           </div>
 
-          <div class="side-option">
+          <div class="side-option playgrounds">
             <div class="event">
               <div class="teams">
                 <div class="small-logo home">
@@ -181,7 +160,7 @@
             </div>
           </div>
 
-          <div class="side-option">
+          <div class="side-option academy">
             <div class="event">
               <div class="teams">
                 <div class="small-logo home">
@@ -307,46 +286,70 @@
           </div>
 
           <div class="control-field place-data">
-            <p>Where do you want to place it?</p>
             <div class="separate">
               <label for="latidude">Latidude:</label>
               <input
                 type="text"
                 id="latidude"
                 placeholder="Enter the latidude"
+                required
               />
             </div>
+
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field place-data">
             <div class="separate">
               <label for="longitude">Longitude:</label>
               <input
                 type="text"
                 id="longitude"
                 placeholder="Enter the longitude"
+                required
               />
             </div>
+
+            <small class="message"></small>
           </div>
 
           <div class="control-field place-data">
-            <p class="name-of-place">How is this place named?</p>
-
             <div class="separate">
               <label for="placename">Name of the place:</label>
               <input
                 type="text"
                 id="placename"
                 placeholder="Enter the name of place"
+                required
               />
             </div>
+            <small class="message"></small>
           </div>
 
           <div class="control-field event-data">
-            <p class="kind-event">What kind of event will it be?</p>
+            <div class="separate">
+              <label for="event-name">Name of the event:</label>
+              <input
+                type="text"
+                id="event-name"
+                placeholder="Enter the name of Event"
+              />
+            </div>
+            <small class="message"></small>
+          </div>
 
-            <input
-              type="text"
-              id="kind-event"
-              placeholder="What kind of event ?"
-            />
+          <div class="control-field event-data">
+            <div class="separate">
+              <label for="kind-event">What do you want to add?</label>
+              <select name="kind-event" id="kind-event">
+                <option value="Mecz na orliku">Mecz na Orliku</option>
+                <option value="Tysiąc">Tysiąc</option>
+                <option value="Król">Król</option>
+                <option value="Pały">Pały</option>
+                <option value="inne">Inne (napisz w opisie)</option>
+              </select>
+            </div>
+            <small class="message"></small>
           </div>
 
           <div class="control-field event-data">
@@ -356,18 +359,43 @@
               <button class="btn decrease-btn">
                 <i class="fas fa-minus"></i>
               </button>
-              <div class="persons-needed">0</div>
+              <input type="number" name="persons-needed" id="persons-needed" />
               <button class="btn increase-btn">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
+
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field match-data">
+            <div class="separate">
+              <label for="home-team">Paste here the picture of home-team</label>
+              <input type="file" name="home-team" id="home-team" />
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field match-data">
+            <div class="separate">
+              <label for="enemy-team"
+                >Paste here the picture of enemy-team</label
+              >
+              <input type="file" name="enemy-team" id="enemy-team" />
+            </div>
+            <small class="message"></small>
           </div>
 
           <div class="control-field description-data">
             <p class="place-ask">Some more information?</p>
 
             <label for="desciption">Describe it:</label>
-            <textarea id="description" cols="45" rows="10" res></textarea>
+            <textarea
+              id="description"
+              cols="45"
+              rows="10"
+              placeholder="Type some information e.g. How long the half will be etc."
+            ></textarea>
           </div>
         </form>
         <div class="btn-field">
