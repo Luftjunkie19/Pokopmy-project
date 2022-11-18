@@ -83,18 +83,25 @@ body {
 }
 
 .side-option {
-  color: black;
   display: none;
+  text-align: center;
 }
 
-.event {
+.event,
+.match,
+.playground {
   padding: 10px;
   background-color: #5bc2e7;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   margin: 15px;
   border-radius: 5px;
   color: white;
+}
+
+.playground {
+  max-width: 600px;
 }
 
 footer {
@@ -193,7 +200,8 @@ input::placeholder {
   padding: 10px;
 }
 
-.control-field {
+.control-field,
+.coords {
   display: flex;
   justify-content: center;
   align-items: center;

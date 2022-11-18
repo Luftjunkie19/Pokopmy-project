@@ -78,109 +78,11 @@
 
           <div class="side-option events"></div>
 
-          <div class="side-option matches">
-            <div class="event">
-              <div class="teams">
-                <div class="small-logo home">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
-                    alt="Home-img"
-                  />
-                </div>
-                <p class="versus">VS</p>
-                <div class="small-logo opponent">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
-                    alt="Away-img"
-                  />
-                </div>
-              </div>
-              <p class="name">Home vs Away</p>
-              <p class="game-date">12.12.2022</p>
-            </div>
-            <div class="event">
-              <div class="teams">
-                <div class="small-logo home">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
-                    alt="Home-img"
-                  />
-                </div>
-                <p class="versus">VS</p>
-                <div class="small-logo opponent">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
-                    alt="Away-img"
-                  />
-                </div>
-              </div>
-              <p class="name">Home vs Away</p>
-              <p class="game-date">12.12.2022</p>
-            </div>
-            <div class="event">
-              <div class="teams">
-                <div class="small-logo home">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
-                    alt="Home-img"
-                  />
-                </div>
-                <p class="versus">VS</p>
-                <div class="small-logo opponent">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
-                    alt="Away-img"
-                  />
-                </div>
-              </div>
-              <p class="name">Home vs Away</p>
-              <p class="game-date">12.12.2022</p>
-            </div>
-          </div>
+          <div class="side-option matches"></div>
 
-          <div class="side-option playgrounds">
-            <div class="event">
-              <div class="teams">
-                <div class="small-logo home">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
-                    alt="Home-img"
-                  />
-                </div>
-                <p class="versus">VS</p>
-                <div class="small-logo opponent">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
-                    alt="Away-img"
-                  />
-                </div>
-              </div>
-              <p class="name">Home vs Away</p>
-              <p class="game-date">12.12.2022</p>
-            </div>
-          </div>
+          <div class="side-option playgrounds"></div>
 
-          <div class="side-option academy">
-            <div class="event">
-              <div class="teams">
-                <div class="small-logo home">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Egyptian_Football_Association_logo.svg/1024px-Egyptian_Football_Association_logo.svg.png"
-                    alt="Home-img"
-                  />
-                </div>
-                <p class="versus">VS</p>
-                <div class="small-logo opponent">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/en/8/8b/England_national_football_team_crest.svg"
-                    alt="Away-img"
-                  />
-                </div>
-              </div>
-              <p class="name">Home vs Away</p>
-              <p class="game-date">12.12.2022</p>
-            </div>
-          </div>
+          <div class="side-option academy"></div>
         </div>
 
         <div id="map"></div>
@@ -326,7 +228,7 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field event-data">
+          <div class="control-field event-data match-data">
             <div class="separate">
               <label for="event-name">Name of the event:</label>
               <input
@@ -343,6 +245,9 @@
               <label for="kind-event">What do you want to add?</label>
               <select name="kind-event" id="kind-event">
                 <option value="Mecz na orliku">Mecz na Orliku</option>
+                <option value="Mecz na dużym boisku">
+                  Mecz na dużym boisku
+                </option>
                 <option value="Tysiąc">Tysiąc</option>
                 <option value="Król">Król</option>
                 <option value="Pały">Pały</option>
@@ -352,7 +257,31 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field event-data">
+          <div class="control-field match-data">
+            <div class="separate">
+              <label for="home-name">Name of the home:</label>
+              <input
+                type="text"
+                id="home-name"
+                placeholder="Enter the name of home"
+              />
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field match-data">
+            <div class="separate">
+              <label for="opponent-name">Name of the opponent:</label>
+              <input
+                type="text"
+                id="opponent-name"
+                placeholder="Enter the name of opponent"
+              />
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field event-data match-data">
             <p class="Persons-quantity">How many persons do you need?</p>
 
             <div class="btns-box">
@@ -371,7 +300,14 @@
           <div class="control-field match-data">
             <div class="separate">
               <label for="home-team">Paste here the picture of home-team</label>
-              <input type="file" name="home-team" id="home-team" />
+              <input
+                type="file"
+                name="home-team"
+                id="home-team"
+                accept=".jpg, .jpeg, .png"
+              />
+
+              <div class="small-logo home-logo"></div>
             </div>
             <small class="message"></small>
           </div>
@@ -381,7 +317,21 @@
               <label for="enemy-team"
                 >Paste here the picture of enemy-team</label
               >
-              <input type="file" name="enemy-team" id="enemy-team" />
+              <input
+                type="file"
+                name="enemy-team"
+                id="enemy-team"
+                accept=".jpg, .jpeg, .png"
+              />
+              <div class="small-logo enemy-logo"></div>
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field match-data">
+            <div class="separate">
+              <label for="match-date">Enter the date of the event</label>
+              <input type="date" name="match-date" id="match-date" />
             </div>
             <small class="message"></small>
           </div>
