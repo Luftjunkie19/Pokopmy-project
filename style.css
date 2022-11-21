@@ -98,6 +98,7 @@ body {
   margin: 15px;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 .playground {

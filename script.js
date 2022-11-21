@@ -37,48 +37,68 @@ const matchSideOption = document.querySelector(".side-option.matches");
 const playgroundSideOption = document.querySelector(".side-option.playgrounds");
 const academySideOption = document.querySelector(".side-option.academy");
 
+let map;
+
+const Icon = L.Icon.extend({
+  options: {
+    iconSize: [35, 30],
+  },
+});
+
+const matchIcon = new Icon({ iconUrl: "./Image/942051.png" });
+console.log(matchIcon);
+const playgroundIcon = new Icon({ iconUrl: "./Image/pitch (1).png" });
+const academyIcon = new Icon({ iconUrl: "./Image/Academy_icon.png" });
+
 let footballPlaygrounds = [
   {
     lat: 53.36905552600669,
     lng: 14.650691305007095,
     name: "Boisko pełnowymiarowe, MORiS Szczecin Prawobrzeże.",
     description: "",
+    dataId: "playground-0",
   },
   {
     lat: 53.36846178739087,
     lng: 14.651112644164295,
     name: "Orlik, MORiS Szczecin Prawobrzeże.",
     description: "Orlik ze sztuczną nawierzchnią",
+    dataId: "playground-1",
   },
   {
     lat: 53.36320740015133,
     lng: 14.656772988084755,
     name: "Orlik, SP 74 im. Stanisława Grońskiego, Szczecin.",
     description: "Orlik ze sztuczną nawierzchnią",
+    dataId: "playground-2",
   },
   {
     lat: 53.3683673645842,
     lng: 14.665738361565003,
     name: "Boisko, za Intermarche, Szczecin.",
     desciption: "Boisko z trawiastą nawierzchnią (niepełnowymiarowe)",
+    dataId: "playground-3",
   },
   {
     lat: 53.3747268330635,
     lng: 14.666672423592805,
     name: "Orlik, SP 37 im. Antoniego Ledóchowskiego, Szczecin.",
     description: "Orlik ze sztuczną nawierzchnią.",
+    dataId: "playground-4",
   },
   {
     lat: 53.38065337408911,
     lng: 14.656376928049148,
     name: "Orlik przy CKS, Szczecin Prawobrzeże.",
     description: "Orlik ze sztuczną nawierzchnią.",
+    dataId: "playground-5",
   },
   {
     lat: 53.375301282827756,
     lng: 14.690769425627927,
     name: "Boisko Aquilli Szczecin, Szczecin Prawobrzeże.",
     description: "Pełnowymiarowe Boisko Aquilli Szczecin",
+    dataId: "playground-6",
   },
   {
     lat: 53.38242605601696,
@@ -86,12 +106,14 @@ let footballPlaygrounds = [
     name: "Orlik przy SP 65, Szczecin Prawobrzeże.",
     desciption:
       "Orlik ze sztuczną nawierzchnią przy SP 65 im. Antoniego Bolesława Dobrowolskiego",
+    dataId: "playground-7",
   },
   {
     lat: 53.394557666577896,
     lng: 14.673681354904422,
     name: "Orlik przy III LO, Szczecin Prawobrzeże.",
     description: "Orlik ze sztuczną nawierzchnią przy III LO",
+    dataId: "playground-8",
   },
   {
     lat: 53.40355016657418,
@@ -99,34 +121,39 @@ let footballPlaygrounds = [
     name: "Orlik przy SP 71, Szczecin Prawobrzeże.",
     description:
       "Orlik ze sztuczną nawierzchnią SP 71 im. Bogusława X i Anny Jagielonki",
+    dataId: "playground-9",
   },
   {
     lat: 53.364586126592314,
     lng: 14.5958746,
     name: "Orlik przy SP 12, Szczecin Prawobrzeże.",
     description: "Orlik przy SP 12, Szczecin Prawobrzeże.",
+    dataId: "playground-10",
   },
   {
     lat: 53.43776572154318,
     lng: 14.745676436553724,
     name: "Boisko OKS Jeziorak, Szczecin Prawobrzeże.",
     description: "Boisko OKS Jeziorak, Szczecin Prawobrzeże.",
+    dataId: "playground-11",
   },
   {
     lat: 53.34171384117264,
     lng: 14.76252451756204,
     name: "Boisko Iskierki Szczecin, Szczecin Prawobrzeże.",
     description: "Boisko OKS Jeziorak, Szczecin Prawobrzeże.",
+    dataId: "playground-12",
   },
   {
     lat: 53.37339675697874,
     lng: 14.674364563732393,
     name: "Komin Arena, Boisko Kasty Majowe, Szczecin Prawobrzeże.",
     description: "Komin Arena, Boisko Kasty Majowe, Szczecin Prawobrzeże.",
+    dataId: "playground-13",
   },
 ];
 let MatchesArray = [];
-let EventsArray = [];
+let eventsArray = [];
 let academyArray = [];
 
 function clearSelects() {
@@ -145,39 +172,89 @@ function hideFirstControls() {
 
 hideFirstControls();
 
+function moveToPopup(e, array, searchedStuff, map) {
+  const searchedEl = e.target.closest(`.${searchedStuff}`);
+
+  const searched = array.find((item) => item.dataId === searchedEl.dataset.id);
+
+  map.setView([searched.lat, searched.lng], 18, {
+    animate: true,
+    pan: {
+      duration: 1.5,
+    },
+  });
+}
+
+function showPlaygroundsInDOM() {
+  footballPlaygrounds.forEach((element) => {
+    const div = document.createElement("div");
+    div.classList.add(`playground`);
+    div.setAttribute("data-id", `${element.dataId}`);
+    div.innerHTML = `
+    <div class="small-logo home">
+      <img
+        src="./Image/pitch (1).png"
+        alt="Football-playground"
+      />
+    </div>
+    
+    <p class="playground-name">${element.name}</p>
+
+    <div class="coords">
+    <small class="coord">Latidude: ${element.lat}</small>
+    <small class="coord">Longitude: ${element.lng}</small>
+    </div>
+    `;
+    playgroundSideOption.append(div);
+  });
+}
+
 function success(position) {
   let latidude = position.coords.latitude;
   let longitude = position.coords.longitude;
 
   console.log(position.coords.latitude, position.coords.longitude);
 
-  showMap(latidude, longitude);
-}
+  navigationBtns[0].classList.add("active");
 
-function showMarkers(ground, map) {
-  let marker = L.marker([ground.lat, ground.lng]).addTo(map);
-
-  marker.bindPopup(`${ground.name}`);
-}
-
-let map;
-
-function showMap(lat, lng) {
-  map = L.map("map").setView([lat, lng], 14);
+  let map = L.map("map").setView([latidude, longitude], 14);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  navigationBtns[0].classList.add("active");
-
-  footballPlaygrounds.forEach((ground) => {
-    showMarkers(ground, map);
-  });
-
   map.on("click", (e) => {
     console.log(e.latlng);
+  });
+
+  showPlaygroundsInDOM();
+
+  showMarkers(footballPlaygrounds, playgroundIcon, map);
+
+  playgroundSideOption.addEventListener("click", (e) => {
+    moveToPopup(e, footballPlaygrounds, "playground", map);
+  });
+
+  eventSideOption.addEventListener("click", (e) => {
+    moveToPopup(e, eventsArray, "event", map);
+  });
+
+  submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    addPlace(map);
+    addEvent(map);
+    addMatch();
+  });
+}
+
+function showMarkers(array, pinIcon, map) {
+  array?.forEach((element) => {
+    let marker = L.marker([element.lat, element.lng], { icon: pinIcon }).addTo(
+      map
+    );
+
+    marker.bindPopup(`${element.name}`);
   });
 }
 
@@ -301,7 +378,7 @@ function showValid(element) {
 }
 
 function clearEventInputs() {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 4; i++) {
     const input = eventFormFields[i].children[0].children[1];
     input.value = "";
   }
@@ -342,45 +419,25 @@ function alertZero() {
   }
 }
 
-function addToDOM() {
-  footballPlaygrounds.forEach((element) => {
-    const div = document.createElement("div");
-    div.classList.add("playground");
-    div.innerHTML = `
-    <div class="small-logo home">
-      <img
-        src="./Image/pitch (1).png"
-        alt="Football-playground"
-      />
-    </div>
-    
-    <p class="playground-name">${element.name}</p>
-
-    <div class="coords">
-    <small class="coord">Latidude: ${element.lat}</small>
-    <small class="coord">Longitude: ${element.lng}</small>
-    </div>
-    `;
-    playgroundSideOption.append(div);
-  });
-}
-addToDOM();
-
 class Event {
-  constructor(name, sort, persons, desciption) {
+  constructor(lat, lng, name, sort, persons, desciption, dataId) {
+    this.lat = lat;
+    this.lng = lng;
     this.name = name;
     this.sort = sort;
     this.persons = persons;
     this.desciption = desciption;
+    this.dataId = dataId;
   }
 
   addEventToArray(element) {
-    EventsArray.push(element);
+    eventsArray.push(element);
   }
 
-  addToDOM() {
+  addEventToDOM() {
     const eventDiv = document.createElement("div");
     eventDiv.classList.add("event");
+    eventDiv.setAttribute("data-id", `${this.dataId}`);
     eventDiv.innerHTML = ` 
     <i class="fas fa-soccer-ball fa-3x"></i>
     <p class="name">${this.name}</p>
@@ -391,15 +448,38 @@ class Event {
 }
 
 class Place {
-  constructor(lat, lng, name, desciption) {
+  constructor(lat, lng, name, desciption, dataId) {
     this.lat = lat;
     this.lng = lng;
     this.name = name;
     this.desciption = desciption;
+    this.dataId = dataId;
   }
 
   addPlaceToArray(element) {
     footballPlaygrounds.push(element);
+  }
+
+  addPlaceToDOM() {
+    const div = document.createElement("div");
+    div.classList.add(`playground`);
+    div.setAttribute("data-id", `${this.dataId}`);
+    div.innerHTML = `
+    <div class="small-logo home">
+      <img
+        src="./Image/pitch (1).png"
+        alt="Football-playground"
+      />
+    </div>
+    
+    <p class="playground-name">${this.name}</p>
+
+    <div class="coords">
+    <small class="coord">Latidude: ${this.lat}</small>
+    <small class="coord">Longitude: ${this.lng}</small>
+    </div>
+    `;
+    playgroundSideOption.append(div);
   }
 }
 
@@ -465,38 +545,6 @@ const homeNameInputMsg = homeNameInput.parentElement.nextElementSibling;
 const opponentNameInputMsg = opponentNameInput.parentElement.nextElementSibling;
 const matchDatePickerMsg = matchDatePicker.parentElement.nextElementSibling;
 
-function addEvent() {
-  if (selectType.value === "event") {
-    showValid(kindOfEventInput);
-    showValid(eventNameInput);
-    alertZero();
-
-    if (
-      kindOfEventMsg.classList.contains("bad") ||
-      eventNameInputMsg.classList.contains("bad") ||
-      personNeededElMsg.classList.contains("bad")
-    ) {
-      return;
-    } else {
-      console.log(eventNameInput.value);
-
-      const newEvent = new Event(
-        eventNameInput.value,
-        kindOfEventInput.value,
-        +personNeededEl.value,
-        description.value
-      );
-
-      newEvent.addToDOM();
-
-      quantityOfPlayers = 0;
-      personNeededEl.value = "";
-      clearEventInputs();
-      clearDescription();
-    }
-  }
-}
-
 function handleFiles(file, holder) {
   const reader = new FileReader();
 
@@ -511,15 +559,49 @@ function handleFiles(file, holder) {
   reader.readAsDataURL(file.files[0]);
 }
 
-homeImgInput.addEventListener("change", (e) => {
-  e.preventDefault();
-  handleFiles(homeImgInput, homeLogoImg);
-});
+function addEvent(map) {
+  if (selectType.value === "event") {
+    showValid(kindOfEventInput);
+    showValid(eventNameInput);
+    numberValidation(latidudeInput, /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/);
+    numberValidation(
+      longitudeInput,
+      /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/
+    );
 
-opponentImgInput.addEventListener("change", (e) => {
-  e.preventDefault();
-  handleFiles(opponentImgInput, opponentLogoImg);
-});
+    alertZero();
+
+    if (
+      kindOfEventMsg.classList.contains("bad") ||
+      eventNameInputMsg.classList.contains("bad") ||
+      personNeededElMsg.classList.contains("bad") ||
+      latidudeInputMsg.classList.contains("bad") ||
+      longitudeInput.classList.contains("bad")
+    ) {
+      return;
+    } else {
+      console.log(eventNameInput.value);
+
+      const newEvent = new Event(
+        +latidudeInput.value,
+        +longitudeInput.value,
+        eventNameInput.value,
+        kindOfEventInput.value,
+        +personNeededEl.value,
+        description.value,
+        `event-${eventsArray.length}`
+      );
+
+      newEvent.addEventToArray(newEvent);
+      newEvent.addEventToDOM();
+      quantityOfPlayers = 0;
+      personNeededEl.value = "";
+      clearEventInputs();
+      clearDescription();
+      showMarkers(eventsArray, matchIcon, map);
+    }
+  }
+}
 
 function addMatch() {
   if (selectType.value === "match") {
@@ -557,32 +639,14 @@ function addMatch() {
       newMatch.addMatchToDOM();
 
       clearInputs(matchFormFields);
+      quantityOfPlayers = 0;
+      personNeededEl.value = "";
       clearDescription();
     }
   }
 }
 
-/*
-function moveToPopup(e) {
-  if (!map) return;
-
-  const workoutEl = e.target.closest(".workout");
-
-  if (!workoutEl) return;
-
-  const workout = this.workouts.find(
-    (work) => work.id === workoutEl.dataset.id
-  );
-
-  this.map.setView(workout.coords, this.mapZoomLevel, {
-    animate: true,
-    pan: {
-      duration: 1,
-    },
-  });
-}*/
-
-function addPlace() {
+function addPlace(map) {
   if (selectType.value === "academy" || selectType.value === "playground") {
     showValid(placeNameInput);
     numberValidation(latidudeInput, /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/);
@@ -602,12 +666,13 @@ function addPlace() {
         +latidudeInput.value,
         +longitudeInput.value,
         placeNameInput.value,
-        description.value
+        description.value,
+        `playground-${footballPlaygrounds.length}`
       );
 
       newPlace.addPlaceToArray(newPlace);
-      addToDOM();
-
+      newPlace.addPlaceToDOM();
+      showMarkers(footballPlaygrounds, playgroundIcon, map);
       console.log(newPlace);
       clearInputs(placeFormFields);
       clearDescription();
@@ -615,16 +680,14 @@ function addPlace() {
   }
 }
 
-function testFunction(file) {
-  const reader = new FileReader();
-  reader.readAsDataURL(file.files[0]);
-}
-
-submitBtn.addEventListener("click", (e) => {
+homeImgInput.addEventListener("change", (e) => {
   e.preventDefault();
-  addPlace();
-  addEvent();
-  addMatch();
+  handleFiles(homeImgInput, homeLogoImg);
+});
+
+opponentImgInput.addEventListener("change", (e) => {
+  e.preventDefault();
+  handleFiles(opponentImgInput, opponentLogoImg);
 });
 
 increaseBtn.addEventListener("click", increasePlayers);
