@@ -82,7 +82,7 @@
 
           <div class="side-option playgrounds"></div>
 
-          <div class="side-option academy"></div>
+          <div class="side-option academies"></div>
         </div>
 
         <div id="map"></div>
@@ -187,7 +187,7 @@
             </select>
           </div>
 
-          <div class="control-field place-data event-data">
+          <div class="control-field place-data event-data academy-data">
             <div class="separate">
               <label for="latidude">Latidude:</label>
               <input
@@ -201,7 +201,7 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field place-data event-data">
+          <div class="control-field place-data event-data academy-data">
             <div class="separate">
               <label for="longitude">Longitude:</label>
               <input
@@ -215,7 +215,7 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field place-data">
+          <div class="control-field place-data academy-data">
             <div class="separate">
               <label for="placename">Name of the place:</label>
               <input
@@ -308,6 +308,20 @@
               />
 
               <div class="small-logo home-logo"></div>
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field academy-data">
+            <div class="separate">
+              <label for="academy-logo">Logo of the academy:</label>
+              <input
+                type="file"
+                name="academy-logo"
+                id="academy-logo"
+                accept=".jpg, .jpeg, .png"
+              />
+              <div class="small-logo academy-img"></div>
             </div>
             <small class="message"></small>
           </div>

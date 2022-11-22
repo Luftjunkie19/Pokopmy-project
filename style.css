@@ -89,7 +89,8 @@ body {
 
 .event,
 .match,
-.playground {
+.playground,
+.academy {
   padding: 10px;
   background-color: #5bc2e7;
   display: flex;
@@ -321,6 +322,11 @@ textarea::placeholder {
   border: none;
   text-align: center;
   padding: 0px;
+}
+
+.popup-style {
+  background-color: rgb(41, 170, 245);
+  color: white;
 }
 
 input::-webkit-outer-spin-button,

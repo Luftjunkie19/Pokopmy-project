@@ -8,6 +8,7 @@ const matchFormFields = document.querySelectorAll(".match-data");
 const sideOptions = document.querySelectorAll(".side-option");
 const selectElements = document.querySelectorAll("select");
 const controlFields = document.querySelectorAll(".control-field");
+const academyFormFields = document.querySelectorAll(".academy-data");
 const mapContainer = document.querySelector(".map-container");
 const selectType = document.querySelector("#type");
 const personNeededEl = document.querySelector("#persons-needed");
@@ -28,14 +29,16 @@ const opponentImgInput = document.querySelector("#enemy-team");
 const homeNameInput = document.querySelector("#home-name");
 const opponentNameInput = document.querySelector("#opponent-name");
 const matchDatePicker = document.querySelector("#match-date");
-
+const academyImgInput = document.querySelector("#academy-logo");
 const homeLogoImg = document.querySelector(".home-logo");
 const opponentLogoImg = document.querySelector(".enemy-logo");
+const academyImgHolder = document.querySelector(".academy-img");
+
 //Sidebar Containers
 const eventSideOption = document.querySelector(".side-option.events");
 const matchSideOption = document.querySelector(".side-option.matches");
 const playgroundSideOption = document.querySelector(".side-option.playgrounds");
-const academySideOption = document.querySelector(".side-option.academy");
+const academySideOption = document.querySelector(".side-option.academies");
 
 let map;
 
@@ -177,7 +180,7 @@ function moveToPopup(e, array, searchedStuff, map) {
 
   const searched = array.find((item) => item.dataId === searchedEl.dataset.id);
 
-  map.setView([searched.lat, searched.lng], 18, {
+  map.setView([searched.lat, searched.lng], 16, {
     animate: true,
     pan: {
       duration: 1.5,
@@ -209,6 +212,18 @@ function showPlaygroundsInDOM() {
   });
 }
 
+const popup = L.popup();
+
+function onMapClick(e, map) {
+  popup.className = "popup-style";
+  popup
+    .setLatLng(e.latlng)
+    .setContent(
+      `Kliknąłeś właśnie w punkt ${e.latlng.toString()}, jeśli to potrzebujesz, skopiuj do formularza.`
+    )
+    .openOn(map);
+}
+
 function success(position) {
   let latidude = position.coords.latitude;
   let longitude = position.coords.longitude;
@@ -225,7 +240,7 @@ function success(position) {
   }).addTo(map);
 
   map.on("click", (e) => {
-    console.log(e.latlng);
+    onMapClick(e, map);
   });
 
   showPlaygroundsInDOM();
@@ -245,6 +260,7 @@ function success(position) {
     addPlace(map);
     addEvent(map);
     addMatch();
+    addAcademy();
   });
 }
 
@@ -334,12 +350,20 @@ function showSuitableForm() {
   if (selectType.value === "event") {
     hideOn(placeFormFields);
     hideOn(matchFormFields);
+    hideOn(academyFormFields);
     displayFlex(eventFormFields);
   } else if (selectType.value === "match") {
     hideOn(placeFormFields);
     hideOn(eventFormFields);
+    hideOn(academyFormFields);
     displayFlex(matchFormFields);
+  } else if (selectType.value === "academy") {
+    hideOn(placeFormFields);
+    hideOn(eventFormFields);
+    hideOn(matchFormFields);
+    displayFlex(academyFormFields);
   } else {
+    hideOn(academyFormFields);
     hideOn(matchFormFields);
     hideOn(eventFormFields);
     displayFlex(placeFormFields);
@@ -483,6 +507,34 @@ class Place {
   }
 }
 
+class Academy extends Place {
+  constructor(lat, lng, name, academyPicture, description, dataId) {
+    super(lat, lng, name, description, dataId);
+    this.academyPicture = academyPicture;
+  }
+
+  addAcademyToArray(element) {
+    academyArray.push(element);
+  }
+
+  showAcademyInDOM() {
+    const div = document.createElement("div");
+    div.classList.add("academy");
+    div.setAttribute("data-id", `${this.dataId}`);
+    div.innerHTML = `
+    <div class="small-logo home">
+      <img
+        src="${this.academyPicture}"
+        alt="${this.name}"
+      />
+    </div>
+    
+    <p class="playground-name">${this.name}</p>
+    `;
+    academySideOption.append(div);
+  }
+}
+
 class Match extends Event {
   constructor(
     name,
@@ -544,6 +596,7 @@ const opponentImgInputMsg = opponentImgInput.parentElement.nextElementSibling;
 const homeNameInputMsg = homeNameInput.parentElement.nextElementSibling;
 const opponentNameInputMsg = opponentNameInput.parentElement.nextElementSibling;
 const matchDatePickerMsg = matchDatePicker.parentElement.nextElementSibling;
+const academyImgInputMsg = academyImgInput.parentElement.nextElementSibling;
 
 function handleFiles(file, holder) {
   const reader = new FileReader();
@@ -638,6 +691,12 @@ function addMatch() {
       newMatch.addMatchToArray(newMatch);
       newMatch.addMatchToDOM();
 
+      homeLogoImg.children[0].remove();
+      opponentLogoImg.children[0].remove();
+
+      homeImgInput.value = "";
+      opponentImgInput.value = ``;
+
       clearInputs(matchFormFields);
       quantityOfPlayers = 0;
       personNeededEl.value = "";
@@ -647,7 +706,7 @@ function addMatch() {
 }
 
 function addPlace(map) {
-  if (selectType.value === "academy" || selectType.value === "playground") {
+  if (selectType.value === "playground") {
     showValid(placeNameInput);
     numberValidation(latidudeInput, /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/);
     numberValidation(
@@ -680,6 +739,45 @@ function addPlace(map) {
   }
 }
 
+function addAcademy() {
+  if (selectType.value === "academy") {
+    showValid(placeNameInput);
+    showValid(academyImgInput);
+    numberValidation(latidudeInput, /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/);
+    numberValidation(
+      longitudeInput,
+      /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/
+    );
+
+    if (
+      placeNameInputMsg.classList.contains("bad") ||
+      latidudeInputMsg.classList.contains("bad") ||
+      longitudeInputMsg.classList.contains("bad") ||
+      academyImgInputMsg.classList.contains("bad")
+    ) {
+      return;
+    } else {
+      const newAcademy = new Academy(
+        +latidudeInput.value,
+        +longitudeInput.value,
+        placeNameInput.value,
+        academyImgHolder.children[0].src,
+        description.value,
+        `academy-${academyArray.length}`
+      );
+
+      newAcademy.addAcademyToArray(newAcademy);
+      newAcademy.showAcademyInDOM();
+
+      academyImgHolder.children[0].remove();
+
+      clearInputs(academyFormFields);
+      clearDescription();
+      console.log(newAcademy);
+    }
+  }
+}
+
 homeImgInput.addEventListener("change", (e) => {
   e.preventDefault();
   handleFiles(homeImgInput, homeLogoImg);
@@ -688,6 +786,11 @@ homeImgInput.addEventListener("change", (e) => {
 opponentImgInput.addEventListener("change", (e) => {
   e.preventDefault();
   handleFiles(opponentImgInput, opponentLogoImg);
+});
+
+academyImgInput.addEventListener("change", (e) => {
+  e.preventDefault();
+  handleFiles(academyImgInput, academyImgHolder);
 });
 
 increaseBtn.addEventListener("click", increasePlayers);
