@@ -17,7 +17,6 @@ const decreaseBtn = document.querySelector(".decrease-btn");
 const description = document.querySelector("textarea");
 const submitBtn = document.querySelector(".submit-btn");
 const descriptionEl = document.querySelector(".description-data");
-
 //Text-fields
 const placeNameInput = document.querySelector("#placename");
 const latidudeInput = document.querySelector("#latidude");
@@ -33,14 +32,57 @@ const academyImgInput = document.querySelector("#academy-logo");
 const homeLogoImg = document.querySelector(".home-logo");
 const opponentLogoImg = document.querySelector(".enemy-logo");
 const academyImgHolder = document.querySelector(".academy-img");
-
 //Sidebar Containers
 const eventSideOption = document.querySelector(".side-option.events");
 const matchSideOption = document.querySelector(".side-option.matches");
 const playgroundSideOption = document.querySelector(".side-option.playgrounds");
 const academySideOption = document.querySelector(".side-option.academies");
-
 let map;
+//Team searcher and creator
+const searchTeamInput = document.querySelector("#search-input");
+const searchTeamBtn = document.querySelector(".search-btn");
+const createNewTeamBtn = document.querySelector(".add-new-team.btn");
+//Form popup
+const popupForm = document.querySelector(".popup-form");
+const closePopupBtn = document.querySelector(".close-btn");
+const teamNickInput = document.querySelector("#team-nick");
+const foundedDateInput = document.querySelector("#founded-date");
+const teamLogoImgInput = document.querySelector("#own-team-logo");
+const teamImgHolder = document.querySelector(".logo-team-holder.medium-logo");
+const popupSubmitBtn = document.querySelector(".popup-btn");
+const resultTeamHolder = document.querySelector(".result-team-holder");
+const popupFormFields = document.querySelectorAll(".form-field");
+
+class Team {
+  constructor(name, founded, logo) {
+    this.name = name;
+    this.founded = founded;
+    this.logo = logo;
+  }
+
+  addTeamToArray(el) {
+    teamArray.push(el);
+  }
+
+  addToDOM() {
+    const div = document.createElement("div");
+    div.classList.add("team");
+    div.innerHTML = `
+    <div class="controll-logo">
+<img
+  src="${this.logo}"
+  alt="Logo klubu"
+/>
+</div>
+<small>Name:</small>
+<h2 class="club-name">${this.name}</h2>
+<small>Founded in:</small>
+<p class="date-club">${this.founded}</p>
+<button class="btn show-stats">Statistics</button>`;
+
+    resultTeamHolder.append(div);
+  }
+}
 
 const Icon = L.Icon.extend({
   options: {
@@ -51,7 +93,10 @@ const Icon = L.Icon.extend({
 const matchIcon = new Icon({ iconUrl: "./Image/942051.png" });
 console.log(matchIcon);
 const playgroundIcon = new Icon({ iconUrl: "./Image/pitch (1).png" });
-const academyIcon = new Icon({ iconUrl: "./Image/Academy_icon.png" });
+const academyIcon = new Icon({
+  iconUrl:
+    "./Image/football-team-club-logo-icon-simple-outline-style-vector-24199816-removebg-preview.png",
+});
 
 let footballPlaygrounds = [
   {
@@ -155,9 +200,10 @@ let footballPlaygrounds = [
     dataId: "playground-13",
   },
 ];
-let MatchesArray = [];
+let matchesArray = [];
 let eventsArray = [];
 let academyArray = [];
+let teamArray = [];
 
 function clearSelects() {
   selectElements.forEach((element) => {
@@ -213,9 +259,7 @@ function showPlaygroundsInDOM() {
 }
 
 const popup = L.popup();
-
 function onMapClick(e, map) {
-  popup.className = "popup-style";
   popup
     .setLatLng(e.latlng)
     .setContent(
@@ -260,7 +304,7 @@ function success(position) {
     addPlace(map);
     addEvent(map);
     addMatch();
-    addAcademy();
+    addAcademy(map);
   });
 }
 
@@ -327,6 +371,22 @@ optionsBtns.forEach((btn, i) => {
     sideOptions[i].style.display = `block`;
   });
 });
+
+function getLastPicture(pictureHolder) {
+  let children = pictureHolder.children;
+
+  if (children.length <= 2) {
+    children.forEach((child, i) => {
+      if (i === children.length - 1) {
+        console.log(child);
+      } else {
+        child.remove();
+      }
+    });
+  } else {
+    children[0].style.display = `flex`;
+  }
+}
 
 navigationBtns.forEach((btn, i) => {
   btn.addEventListener("click", () => {
@@ -544,9 +604,10 @@ class Match extends Event {
     opponentImg,
     persons,
     date,
-    description
+    description,
+    dataId
   ) {
-    super(name, description, persons);
+    super(name, description, persons, dataId);
     this.home = home;
     this.enemy = enemy;
     this.homeImg = homeImg;
@@ -555,22 +616,23 @@ class Match extends Event {
   }
 
   addMatchToArray(element) {
-    MatchesArray.push(element);
+    matchesArray.push(element);
   }
 
   addMatchToDOM() {
     const div = document.createElement("div");
     div.classList.add("match");
+    div.setAttribute("data-id", `${this.dataId}`);
     div.innerHTML = `  
     <div class="teams">
-    <div class="small-logo home">
+    <div class="controll-logo home">
       <img
         src="${this.homeImg}"
         alt="Home-img"
       />
     </div>
     <p class="versus">VS</p>
-    <div class="small-logo opponent">
+    <div class="controll-logo opponent">
       <img
         src="${this.opponentImg}"
         alt="Away-img"
@@ -597,6 +659,18 @@ const homeNameInputMsg = homeNameInput.parentElement.nextElementSibling;
 const opponentNameInputMsg = opponentNameInput.parentElement.nextElementSibling;
 const matchDatePickerMsg = matchDatePicker.parentElement.nextElementSibling;
 const academyImgInputMsg = academyImgInput.parentElement.nextElementSibling;
+const teamNickInputMsg = teamNickInput.parentElement.nextElementSibling;
+const foundedDateInputMsg = foundedDateInput.parentElement.nextElementSibling;
+const teamLogoImgInputMsg = teamLogoImgInput.parentElement.nextElementSibling;
+
+function removeOtherImages(holder) {
+  let allImages = holder.childNodes;
+
+  for (let index = 0; index < allImages.length; index++) {
+    const element = allImages[index];
+    element.remove();
+  }
+}
 
 function handleFiles(file, holder) {
   const reader = new FileReader();
@@ -612,7 +686,7 @@ function handleFiles(file, holder) {
   reader.readAsDataURL(file.files[0]);
 }
 
-function addEvent(map) {
+function addEvent() {
   if (selectType.value === "event") {
     showValid(kindOfEventInput);
     showValid(eventNameInput);
@@ -651,7 +725,6 @@ function addEvent(map) {
       personNeededEl.value = "";
       clearEventInputs();
       clearDescription();
-      showMarkers(eventsArray, matchIcon, map);
     }
   }
 }
@@ -681,26 +754,29 @@ function addMatch() {
         eventNameInput.value,
         homeNameInput.value,
         opponentNameInput.value,
-        homeLogoImg.children[0].src,
-        opponentLogoImg.children[0].src,
+        homeLogoImg.children[homeLogoImg.children.length - 1].src,
+        opponentLogoImg.children[opponentLogoImg.children.length - 1].src,
         +personNeededEl.value,
         matchDatePicker.value,
-        description.value
+        description.value,
+        `match-${matchesArray.length}`
       );
 
       newMatch.addMatchToArray(newMatch);
       newMatch.addMatchToDOM();
 
-      homeLogoImg.children[0].remove();
-      opponentLogoImg.children[0].remove();
+      homeLogoImg.innerHTML = ``;
+      opponentLogoImg.innerHTML = ``;
+
+      quantityOfPlayers = 0;
+      personNeededEl.value = 0;
 
       homeImgInput.value = "";
       opponentImgInput.value = ``;
 
-      clearInputs(matchFormFields);
-      quantityOfPlayers = 0;
-      personNeededEl.value = "";
       clearDescription();
+
+      clearInputs(matchFormFields);
     }
   }
 }
@@ -739,7 +815,7 @@ function addPlace(map) {
   }
 }
 
-function addAcademy() {
+function addAcademy(map) {
   if (selectType.value === "academy") {
     showValid(placeNameInput);
     showValid(academyImgInput);
@@ -769,30 +845,78 @@ function addAcademy() {
       newAcademy.addAcademyToArray(newAcademy);
       newAcademy.showAcademyInDOM();
 
-      academyImgHolder.children[0].remove();
+      academyImgHolder.innerHTML = ``;
 
       clearInputs(academyFormFields);
       clearDescription();
       console.log(newAcademy);
+      showMarkers(academyArray, academyIcon, map);
     }
   }
 }
 
+function addTeam() {
+  showValid(teamNickInput);
+  showValid(foundedDateInput);
+  showValid(teamLogoImgInput);
+  if (
+    teamLogoImgInputMsg.classList.contains("bad") ||
+    foundedDateInputMsg.classList.contains("bad") ||
+    teamLogoImgInput.classList.contains("bad")
+  ) {
+    return;
+  } else {
+    const newTeam = new Team(
+      teamNickInput.value,
+      foundedDateInput.value,
+      teamImgHolder.lastChild.src
+    );
+
+    newTeam.addTeamToArray(newTeam);
+    newTeam.addToDOM();
+
+    clearInputs(popupFormFields);
+    teamImgHolder.innerHTML = ``;
+    popupForm.style.display = "none";
+  }
+}
+
+popupSubmitBtn.addEventListener("click", () => {
+  addTeam();
+});
+
 homeImgInput.addEventListener("change", (e) => {
   e.preventDefault();
+  removeOtherImages(homeLogoImg);
   handleFiles(homeImgInput, homeLogoImg);
 });
 
 opponentImgInput.addEventListener("change", (e) => {
   e.preventDefault();
+  removeOtherImages(opponentLogoImg);
   handleFiles(opponentImgInput, opponentLogoImg);
 });
 
 academyImgInput.addEventListener("change", (e) => {
   e.preventDefault();
+  removeOtherImages(academyImgHolder);
   handleFiles(academyImgInput, academyImgHolder);
 });
 
 increaseBtn.addEventListener("click", increasePlayers);
 decreaseBtn.addEventListener("click", decreasePlayers);
 selectType.addEventListener("change", showSuitableForm);
+
+createNewTeamBtn.addEventListener("click", () => {
+  popupForm.style.display = `flex`;
+});
+
+closePopupBtn.addEventListener("click", () => {
+  popupForm.style.display = "none";
+});
+
+teamLogoImgInput.addEventListener("change", (e) => {
+  e.preventDefault();
+  removeOtherImages(teamImgHolder);
+  handleFiles(teamLogoImgInput, teamImgHolder);
+});

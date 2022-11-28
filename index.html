@@ -86,6 +86,19 @@
         </div>
 
         <div id="map"></div>
+
+        <div class="show-info">
+          <div class="info-head">
+            <div class="top-head">
+              <i class="fas fa-school fa-2x"></i>
+
+              <div class="info-set">
+                <span class="info-type">Giereczka</span>
+              </div>
+            </div>
+            <div class="bottom-head"></div>
+          </div>
+        </div>
       </div>
 
       <div class="content-box search-players">
@@ -107,7 +120,7 @@
           </button>
         </div>
 
-        <div class="result-holder">
+        <div class="result-player-holder">
           <div class="player">
             <div class="controll-logo">
               <img
@@ -139,35 +152,54 @@
           <button class="search-btn">
             Search <i class="fas fa-search"></i>
           </button>
+
+          <button class="add-new-team btn">Create new team!</button>
         </div>
-        <div class="result-holder">
-          <div class="team">
-            <div class="controll-logo">
-              <img
-                src="https://images.unsplash.com/photo-1584329492930-56bb3e10d492?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
-                alt="Logo klubu"
-              />
-            </div>
-            <small>Name:</small>
-            <h2 class="club-name">Pokopmy Prawobrzeże KS</h2>
-            <small>Founded in:</small>
-            <p class="date-club">12.11.1982</p>
-            <button class="btn show-stats">Statistics</button>
+
+        <div class="popup-form">
+          <div class="popup-header">
+            <h4>Create your own team to face the other ones!</h4>
+            <p>and of course invite your friends 😆</p>
           </div>
-          <div class="team">
-            <div class="controll-logo">
-              <img
-                src="https://images.unsplash.com/photo-1584329492930-56bb3e10d492?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
-                alt="Logo klubu"
-              />
+
+          <button class="close-btn btn"><i class="fas fa-x"></i> Close</button>
+
+          <div class="add-team-form">
+            <div class="form-field">
+              <div class="separate">
+                <label for="team-nick">Name of the club:</label>
+                <input
+                  type="text"
+                  id="team-nick"
+                  placeholder="Enter the name of the club"
+                  autocomplete="off"
+                />
+              </div>
+              <small class="message"></small>
             </div>
-            <small>Name:</small>
-            <h2 class="club-name">Pokopmy Prawobrzeże KS</h2>
-            <small>Founded in:</small>
-            <p class="date-club">31.05.1921</p>
-            <button class="btn show-stats">Statistics</button>
+
+            <div class="form-field">
+              <div class="separate">
+                <label for="founded-date">Founded in:</label>
+                <input type="date" id="founded-date" />
+              </div>
+              <small class="message"></small>
+            </div>
+
+            <div class="form-field">
+              <div class="separate">
+                <label for="own-team-logo">Logo of the team:</label>
+                <input type="file" id="own-team-logo" />
+
+                <div class="logo-team-holder medium-logo"></div>
+              </div>
+              <small class="message"></small>
+            </div>
           </div>
+          <button class="popup-btn btn">Submit</button>
         </div>
+
+        <div class="result-team-holder"></div>
       </div>
 
       <div class="content-box">
@@ -307,7 +339,7 @@
                 accept=".jpg, .jpeg, .png"
               />
 
-              <div class="small-logo home-logo"></div>
+              <div class="medium-logo home-logo"></div>
             </div>
             <small class="message"></small>
           </div>
@@ -321,7 +353,7 @@
                 id="academy-logo"
                 accept=".jpg, .jpeg, .png"
               />
-              <div class="small-logo academy-img"></div>
+              <div class="medium-logo academy-img"></div>
             </div>
             <small class="message"></small>
           </div>
@@ -337,7 +369,7 @@
                 id="enemy-team"
                 accept=".jpg, .jpeg, .png"
               />
-              <div class="small-logo enemy-logo"></div>
+              <div class="medium-logo enemy-logo"></div>
             </div>
             <small class="message"></small>
           </div>
@@ -370,9 +402,17 @@
 
     <footer class="footer">
       <ul>
-        <li>Made</li>
-        <li>In</li>
-        <li>Poland</li>
+        <li>
+          <a href="#"
+            >Skontaktuj się z nami na <i class="fab fa-whatsapp"></i
+          ></a>
+        </li>
+        <li>
+          <a href="#">Dołącz na serwer<i class="fab fa-discord"></i></a>
+        </li>
+        <li>
+          <a href="#">Zajeb suba <i class="fab fa-youtube"></i></a>
+        </li>
       </ul>
 
       <ul>

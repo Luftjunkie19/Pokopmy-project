@@ -1,0 +1,29 @@
+{
+  "name": "pokopmy-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luftjunkie19/Pokopmy-project.git"
+  },
+  "keywords": [
+    "Pokopmy",
+    "football",
+    "piłka",
+    "nożna",
+    "Kopmy"
+  ],
+  "author": "Lukas Borkowski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luftjunkie19/Pokopmy-project/issues"
+  },
+  "homepage": "https://github.com/Luftjunkie19/Pokopmy-project#readme",
+  "dependencies": {
+    "node-geocoder": "^4.2.0"
+  }
+}
