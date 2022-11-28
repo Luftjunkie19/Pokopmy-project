@@ -455,6 +455,7 @@ a i {
   padding: 15px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  display: none;
 }
 
 .info-head {
