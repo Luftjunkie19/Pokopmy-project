@@ -52,6 +52,21 @@ const teamImgHolder = document.querySelector(".logo-team-holder.medium-logo");
 const popupSubmitBtn = document.querySelector(".popup-btn");
 const resultTeamHolder = document.querySelector(".result-team-holder");
 const popupFormFields = document.querySelectorAll(".form-field");
+//Description after click Events and Matches
+const eventInfoHolder = document.querySelector(".show-info.event-info");
+const infoType = document.querySelector(".info-type");
+const infoTitle = document.querySelector(".info-title");
+const infoDate = document.querySelector(".info-date");
+const eventDescriptionBox = document.querySelector(
+  ".description-box.event-box"
+);
+//Description after click Academy
+const academyInfoHolder = document.querySelector(".show-info.academy-info");
+const infoAcademyName = document.querySelector(".academy-name");
+const infoAcademyLogo = document.querySelector(".info-img");
+const academyDescriptionBox = document.querySelector(
+  ".description-box.academy-box"
+);
 
 class Team {
   constructor(name, founded, logo) {
@@ -124,7 +139,7 @@ let footballPlaygrounds = [
     lat: 53.3683673645842,
     lng: 14.665738361565003,
     name: "Boisko, za Intermarche, Szczecin.",
-    desciption: "Boisko z trawiastą nawierzchnią (niepełnowymiarowe)",
+    description: "Boisko z trawiastą nawierzchnią (niepełnowymiarowe)",
     dataId: "playground-3",
   },
   {
@@ -152,7 +167,7 @@ let footballPlaygrounds = [
     lat: 53.38242605601696,
     lng: 14.638423296454903,
     name: "Orlik przy SP 65, Szczecin Prawobrzeże.",
-    desciption:
+    description:
       "Orlik ze sztuczną nawierzchnią przy SP 65 im. Antoniego Bolesława Dobrowolskiego",
     dataId: "playground-7",
   },
@@ -234,6 +249,37 @@ function moveToPopup(e, array, searchedStuff, map) {
   });
 }
 
+function showEventInfo(e, type, array) {
+  if (e.target.classList.contains(`${type}`)) {
+    let searched = array.find((item) => item.dataId === e.target.dataset.id);
+
+    eventInfoHolder.style.opacity = 1;
+    eventInfoHolder.style.transform = `translate(0%, -63%)`;
+    infoDate.innerText = `${searched.date.split("-").reverse().join(".")}`;
+    infoTitle.innerText = `${searched.name}`;
+    infoType.innerText = `${searched.sort}`;
+    searched.description === ""
+      ? (eventDescriptionBox.innerHTML = `Ten użytkownik nie dodał opisu`)
+      : (eventDescriptionBox.innerHTML = `${searched.description}`);
+  }
+}
+
+function showAcademyInfo(e, type, array) {
+  if (e.target.classList.contains(`${type}`)) {
+    let searched = array.find((item) => item.dataId === e.target.dataset.id);
+
+    console.log(searched);
+
+    academyInfoHolder.style.opacity = 1;
+    academyInfoHolder.style.transform = `translate(0%, -50%)`;
+    infoAcademyName.innerText = `${searched.name}`;
+    infoAcademyLogo.children[0].src = `${searched.academyPicture}`;
+    searched.description === ""
+      ? (academyDescriptionBox.innerHTML = `Ten użytkownik nie dodał opisu`)
+      : (academyDescriptionBox.innerHTML = `${searched.description}`);
+  }
+}
+
 function showPlaygroundsInDOM() {
   footballPlaygrounds.forEach((element) => {
     const div = document.createElement("div");
@@ -272,8 +318,6 @@ function success(position) {
   let latidude = position.coords.latitude;
   let longitude = position.coords.longitude;
 
-  console.log(position.coords.latitude, position.coords.longitude);
-
   navigationBtns[0].classList.add("active");
 
   let map = L.map("map").setView([latidude, longitude], 14);
@@ -297,6 +341,11 @@ function success(position) {
 
   eventSideOption.addEventListener("click", (e) => {
     moveToPopup(e, eventsArray, "event", map);
+    showEventInfo(e, "event", eventsArray);
+  });
+
+  academySideOption.addEventListener("click", (e) => {
+    showAcademyInfo(e, "academy", academyArray);
   });
 
   submitBtn.addEventListener("click", (e) => {
@@ -306,6 +355,7 @@ function success(position) {
     addMatch();
     addAcademy(map);
   });
+  L.control.locate().addTo(map);
 }
 
 function showMarkers(array, pinIcon, map) {
@@ -372,22 +422,6 @@ optionsBtns.forEach((btn, i) => {
   });
 });
 
-function getLastPicture(pictureHolder) {
-  let children = pictureHolder.children;
-
-  if (children.length <= 2) {
-    children.forEach((child, i) => {
-      if (i === children.length - 1) {
-        console.log(child);
-      } else {
-        child.remove();
-      }
-    });
-  } else {
-    children[0].style.display = `flex`;
-  }
-}
-
 navigationBtns.forEach((btn, i) => {
   btn.addEventListener("click", () => {
     removeActive(navigationBtns);
@@ -429,8 +463,6 @@ function showSuitableForm() {
     displayFlex(placeFormFields);
   }
 }
-
-console.log(contentBoxes);
 
 let quantityOfPlayers = 0;
 
@@ -483,7 +515,7 @@ function numberValidation(element, regex) {
   if (
     isNaN(fieldToNumber) ||
     fieldToNumber === 0 ||
-    !element.value.match(regex)
+    !element.value.trim("").match(regex)
   ) {
     messageField.classList.add("bad");
     messageField.innerText = `Apologies, but your ${element.id} is not a valid, please change it.`;
@@ -504,14 +536,15 @@ function alertZero() {
 }
 
 class Event {
-  constructor(lat, lng, name, sort, persons, desciption, dataId) {
+  constructor(lat, lng, name, sort, persons, description, dataId, date) {
     this.lat = lat;
     this.lng = lng;
     this.name = name;
     this.sort = sort;
     this.persons = persons;
-    this.desciption = desciption;
+    this.description = description;
     this.dataId = dataId;
+    this.date = date;
   }
 
   addEventToArray(element) {
@@ -526,17 +559,18 @@ class Event {
     <i class="fas fa-soccer-ball fa-3x"></i>
     <p class="name">${this.name}</p>
     <p class="sort">${this.sort}</p>
-    <p class="quantity">Needed: ${this.persons}</p>`;
+    <p class="quantity">Needed: ${this.persons}</p>
+    <p class="game-date">${this.date}</p>`;
     eventSideOption.append(eventDiv);
   }
 }
 
 class Place {
-  constructor(lat, lng, name, desciption, dataId) {
+  constructor(lat, lng, name, description, dataId) {
     this.lat = lat;
     this.lng = lng;
     this.name = name;
-    this.desciption = desciption;
+    this.description = description;
     this.dataId = dataId;
   }
 
@@ -595,7 +629,7 @@ class Academy extends Place {
   }
 }
 
-class Match extends Event {
+class Match {
   constructor(
     name,
     home,
@@ -607,12 +641,15 @@ class Match extends Event {
     description,
     dataId
   ) {
-    super(name, description, persons, dataId);
+    this.name = name;
+    this.description = description;
+    this.persons = persons;
+    this.dataId = dataId;
+    this.date = date;
     this.home = home;
     this.enemy = enemy;
     this.homeImg = homeImg;
     this.opponentImg = opponentImg;
-    this.date = date;
   }
 
   addMatchToArray(element) {
@@ -695,7 +732,7 @@ function addEvent() {
       longitudeInput,
       /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/
     );
-
+    showValid(matchDatePicker);
     alertZero();
 
     if (
@@ -703,7 +740,8 @@ function addEvent() {
       eventNameInputMsg.classList.contains("bad") ||
       personNeededElMsg.classList.contains("bad") ||
       latidudeInputMsg.classList.contains("bad") ||
-      longitudeInput.classList.contains("bad")
+      longitudeInput.classList.contains("bad") ||
+      matchDatePickerMsg.classList.contains("bad")
     ) {
       return;
     } else {
@@ -716,14 +754,15 @@ function addEvent() {
         kindOfEventInput.value,
         +personNeededEl.value,
         description.value,
-        `event-${eventsArray.length}`
+        `event-${eventsArray.length}`,
+        matchDatePicker.value
       );
 
       newEvent.addEventToArray(newEvent);
       newEvent.addEventToDOM();
+      clearEventInputs();
       quantityOfPlayers = 0;
       personNeededEl.value = "";
-      clearEventInputs();
       clearDescription();
     }
   }
@@ -762,8 +801,12 @@ function addMatch() {
         `match-${matchesArray.length}`
       );
 
+      console.log(newMatch);
+
       newMatch.addMatchToArray(newMatch);
       newMatch.addMatchToDOM();
+
+      clearDescription();
 
       homeLogoImg.innerHTML = ``;
       opponentLogoImg.innerHTML = ``;
@@ -773,8 +816,6 @@ function addMatch() {
 
       homeImgInput.value = "";
       opponentImgInput.value = ``;
-
-      clearDescription();
 
       clearInputs(matchFormFields);
     }

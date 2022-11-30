@@ -108,7 +108,7 @@ body {
 
 footer {
   width: 100vw;
-  height: 100px;
+  height: 150px;
   background-color: rgb(0, 0, 0);
   display: flex;
   justify-content: space-around;
@@ -447,20 +447,94 @@ a i {
 
 .show-info {
   position: absolute;
-  left: 45%;
-  top: 70%;
-  transform: translate(-25%, 200%);
-  z-index: 1000;
+  left: 50%;
+  top: 100%;
   background-color: #074359;
   padding: 15px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  display: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.5s;
 }
 
+/* transform: translate(0%, -61%);*/
+
 .info-head {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.top-head {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid white;
+}
+
+.info-set {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.icon {
+  padding: 15px;
+  margin: 10px;
+  background-color: #006fd7;
+  border-radius: 50%;
+}
+
+.info-when,
+.action-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.action-btns {
+  padding: 3px;
+}
+
+.day,
+.time,
+.sequence {
+  background-color: white;
+  color: black;
+  padding: 3px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-weight: 450;
+  margin: 5px;
+}
+
+.sequence {
+  background: none;
+  color: white;
+}
+
+.small-icon {
+  font-size: 16px;
+  margin: 5px;
+}
+
+.action-btns button {
+  border: 0;
+  outline: 0;
+  background-color: #006fd7;
+  color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: inherit;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
 }

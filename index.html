@@ -24,10 +24,21 @@
     />
 
     <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js"
+      charset="utf-8"
+    ></script>
+
+    <link
       rel="shortcut icon"
       href="./Image/Zrzut_ekranu__774_-removebg-preview.png"
       type="image/x-icon"
     />
+
     <link rel="stylesheet" href="style.css" />
     <title>Pokopmy-project</title>
   </head>
@@ -87,16 +98,91 @@
 
         <div id="map"></div>
 
-        <div class="show-info">
+        <div class="show-info event-info">
           <div class="info-head">
             <div class="top-head">
-              <i class="fas fa-school fa-2x"></i>
+              <div class="icon">
+                <i class="fas fa-soccer-ball fa-2x"></i>
+              </div>
 
               <div class="info-set">
-                <span class="info-type">Giereczka</span>
+                <span class="info-type"></span>
+                <span class="info-title"></span>
+
+                <div class="info-when">
+                  <div class="day">
+                    <div class="small-icon">
+                      <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <span class="info-date"></span>
+                  </div>
+                  <div class="time">
+                    <div class="small-icon">
+                      <i class="fas fa-clock-four"></i>
+                    </div>
+                    <span class="info-time">18:00</span>
+                  </div>
+                </div>
+
+                <div class="action-btns">
+                  <button class="join-btn">
+                    <div class="small-icon">
+                      <i class="fas fa-soccer-ball"></i>
+                    </div>
+                    Kick it!
+                  </button>
+                  <button class="message-btn">
+                    <div class="small-icon">
+                      <i class="fas fa-message"></i>
+                    </div>
+                    Message
+                  </button>
+                </div>
+              </div>
+
+              <div class="info-set">
+                <div class="sequence">
+                  <div class="small-icon">
+                    <i class="fas fa-hand-point-right fa-2x"></i>
+                  </div>
+                  <blockquote>Nie bądź pizda, idź i pokop!</blockquote>
+                </div>
               </div>
             </div>
-            <div class="bottom-head"></div>
+            <div class="bottom-head">
+              <p>Descripition:</p>
+              <div class="description-box event-box"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="show-info academy-info">
+          <div class="info-head">
+            <div class="top-head">
+              <div class="icon">
+                <i class="fas fa-home-alt fa-2x"></i>
+              </div>
+
+              <div class="info-set">
+                <span class="academy-name"></span>
+                <div class="small-logo info-img">
+                  <img src="" alt="Logo" />
+                </div>
+              </div>
+
+              <div class="info-set">
+                <div class="sequence">
+                  <div class="small-icon">
+                    <i class="fas fa-phone-square-alt fa-2x"></i>
+                  </div>
+                  <blockquote>Zainteresowany? Dzwoń do nas!</blockquote>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-head">
+              <p>Descripition:</p>
+              <div class="description-box academy-box"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -374,7 +460,7 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field match-data">
+          <div class="control-field event-data match-data">
             <div class="separate">
               <label for="match-date">Enter the date of the event</label>
               <input type="date" name="match-date" id="match-date" />
