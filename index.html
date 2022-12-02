@@ -99,6 +99,9 @@
         <div id="map"></div>
 
         <div class="show-info event-info">
+          <button class="close-btn btn close-event-info">
+            <i class="fas fa-x"></i> Close
+          </button>
           <div class="info-head">
             <div class="top-head">
               <div class="icon">
@@ -120,7 +123,7 @@
                     <div class="small-icon">
                       <i class="fas fa-clock-four"></i>
                     </div>
-                    <span class="info-time">18:00</span>
+                    <span class="info-time"></span>
                   </div>
                 </div>
 
@@ -157,6 +160,9 @@
         </div>
 
         <div class="show-info academy-info">
+          <button class="close-btn btn close-academy-info">
+            <i class="fas fa-x"></i> Close
+          </button>
           <div class="info-head">
             <div class="top-head">
               <div class="icon">
@@ -305,7 +311,9 @@
             </select>
           </div>
 
-          <div class="control-field place-data event-data academy-data">
+          <div
+            class="control-field match-data place-data event-data academy-data"
+          >
             <div class="separate">
               <label for="latidude">Latidude:</label>
               <input
@@ -319,7 +327,9 @@
             <small class="message"></small>
           </div>
 
-          <div class="control-field place-data event-data academy-data">
+          <div
+            class="control-field match-data place-data event-data academy-data"
+          >
             <div class="separate">
               <label for="longitude">Longitude:</label>
               <input
@@ -464,6 +474,14 @@
             <div class="separate">
               <label for="match-date">Enter the date of the event</label>
               <input type="date" name="match-date" id="match-date" />
+            </div>
+            <small class="message"></small>
+          </div>
+
+          <div class="control-field event-data match-data">
+            <div class="separate">
+              <label for="match-time">What time should it be:</label>
+              <input type="time" name="match-time" id="match-time" />
             </div>
             <small class="message"></small>
           </div>

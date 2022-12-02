@@ -57,6 +57,7 @@ const eventInfoHolder = document.querySelector(".show-info.event-info");
 const infoType = document.querySelector(".info-type");
 const infoTitle = document.querySelector(".info-title");
 const infoDate = document.querySelector(".info-date");
+const timeInfo = document.querySelector(".info-time");
 const eventDescriptionBox = document.querySelector(
   ".description-box.event-box"
 );
@@ -67,6 +68,23 @@ const infoAcademyLogo = document.querySelector(".info-img");
 const academyDescriptionBox = document.querySelector(
   ".description-box.academy-box"
 );
+const closeEventInfoBtn = document.querySelector(
+  ".close-btn.btn.close-event-info"
+);
+const closeAcademyInfoBtn = document.querySelector(
+  ".close-btn.btn.close-academy-info"
+);
+const timeInput = document.querySelector("#match-time");
+
+closeEventInfoBtn.addEventListener("click", () => {
+  eventInfoHolder.style.opacity = 0;
+  eventInfoHolder.style.transform = `translate(0%, 0%)`;
+});
+
+closeAcademyInfoBtn.addEventListener("click", () => {
+  academyInfoHolder.style.opacity = 0;
+  academyInfoHolder.style.transform = `translate(0%, 0%)`;
+});
 
 class Team {
   constructor(name, founded, logo) {
@@ -109,8 +127,7 @@ const matchIcon = new Icon({ iconUrl: "./Image/942051.png" });
 console.log(matchIcon);
 const playgroundIcon = new Icon({ iconUrl: "./Image/pitch (1).png" });
 const academyIcon = new Icon({
-  iconUrl:
-    "./Image/football-team-club-logo-icon-simple-outline-style-vector-24199816-removebg-preview.png",
+  iconUrl: "./Image/fa_flat (2).png",
 });
 
 let footballPlaygrounds = [
@@ -258,6 +275,23 @@ function showEventInfo(e, type, array) {
     infoDate.innerText = `${searched.date.split("-").reverse().join(".")}`;
     infoTitle.innerText = `${searched.name}`;
     infoType.innerText = `${searched.sort}`;
+    timeInfo.innerText = `${searched.time}`;
+    searched.description === ""
+      ? (eventDescriptionBox.innerHTML = `Ten użytkownik nie dodał opisu`)
+      : (eventDescriptionBox.innerHTML = `${searched.description}`);
+  }
+}
+
+function showMatchInfo(e, type, array) {
+  if (e.target.classList.contains(`${type}`)) {
+    let searched = array.find((item) => item.dataId === e.target.dataset.id);
+
+    eventInfoHolder.style.opacity = 1;
+    eventInfoHolder.style.transform = `translate(0%, -63%)`;
+    infoDate.innerText = `${searched.date.split("-").reverse().join(".")}`;
+    infoTitle.innerText = `${searched.name}`;
+    infoType.innerText = `${searched.home} vs ${searched.enemy}`;
+    timeInfo.innerText = `${searched.time}`;
     searched.description === ""
       ? (eventDescriptionBox.innerHTML = `Ten użytkownik nie dodał opisu`)
       : (eventDescriptionBox.innerHTML = `${searched.description}`);
@@ -344,8 +378,14 @@ function success(position) {
     showEventInfo(e, "event", eventsArray);
   });
 
+  matchSideOption.addEventListener("click", (e) => {
+    showMatchInfo(e, "match", matchesArray);
+    moveToPopup(e, matchesArray, "match", map);
+  });
+
   academySideOption.addEventListener("click", (e) => {
     showAcademyInfo(e, "academy", academyArray);
+    moveToPopup(e, academyArray, "academy", map);
   });
 
   submitBtn.addEventListener("click", (e) => {
@@ -536,7 +576,7 @@ function alertZero() {
 }
 
 class Event {
-  constructor(lat, lng, name, sort, persons, description, dataId, date) {
+  constructor(lat, lng, name, sort, persons, description, dataId, date, time) {
     this.lat = lat;
     this.lng = lng;
     this.name = name;
@@ -545,6 +585,7 @@ class Event {
     this.description = description;
     this.dataId = dataId;
     this.date = date;
+    this.time = time;
   }
 
   addEventToArray(element) {
@@ -560,7 +601,7 @@ class Event {
     <p class="name">${this.name}</p>
     <p class="sort">${this.sort}</p>
     <p class="quantity">Needed: ${this.persons}</p>
-    <p class="game-date">${this.date}</p>`;
+    <p class="game-date">${this.date}, ${this.time}</p>`;
     eventSideOption.append(eventDiv);
   }
 }
@@ -631,6 +672,8 @@ class Academy extends Place {
 
 class Match {
   constructor(
+    lat,
+    lng,
     name,
     home,
     enemy,
@@ -639,8 +682,11 @@ class Match {
     persons,
     date,
     description,
-    dataId
+    dataId,
+    time
   ) {
+    this.lat = lat;
+    this.lng = lng;
     this.name = name;
     this.description = description;
     this.persons = persons;
@@ -650,6 +696,7 @@ class Match {
     this.enemy = enemy;
     this.homeImg = homeImg;
     this.opponentImg = opponentImg;
+    this.time = time;
   }
 
   addMatchToArray(element) {
@@ -677,7 +724,7 @@ class Match {
     </div>
   </div>
   <p class="name">${this.home} vs ${this.enemy}</p>
-  <p class="game-date">${this.date}</p>`;
+  <p class="game-date">${this.date}, ${this.time}</p>`;
 
     matchSideOption.append(div);
   }
@@ -699,6 +746,7 @@ const academyImgInputMsg = academyImgInput.parentElement.nextElementSibling;
 const teamNickInputMsg = teamNickInput.parentElement.nextElementSibling;
 const foundedDateInputMsg = foundedDateInput.parentElement.nextElementSibling;
 const teamLogoImgInputMsg = teamLogoImgInput.parentElement.nextElementSibling;
+const timeInputMsg = timeInput.parentElement.nextElementSibling;
 
 function removeOtherImages(holder) {
   let allImages = holder.childNodes;
@@ -733,6 +781,7 @@ function addEvent() {
       /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/
     );
     showValid(matchDatePicker);
+    showValid(timeInput);
     alertZero();
 
     if (
@@ -741,7 +790,8 @@ function addEvent() {
       personNeededElMsg.classList.contains("bad") ||
       latidudeInputMsg.classList.contains("bad") ||
       longitudeInput.classList.contains("bad") ||
-      matchDatePickerMsg.classList.contains("bad")
+      matchDatePickerMsg.classList.contains("bad") ||
+      timeInputMsg.classList.contains("bad")
     ) {
       return;
     } else {
@@ -755,12 +805,15 @@ function addEvent() {
         +personNeededEl.value,
         description.value,
         `event-${eventsArray.length}`,
-        matchDatePicker.value
+        matchDatePicker.value,
+        timeInput.value
       );
 
       newEvent.addEventToArray(newEvent);
       newEvent.addEventToDOM();
       clearEventInputs();
+      timeInput.value = "";
+      matchDatePicker.value = "";
       quantityOfPlayers = 0;
       personNeededEl.value = "";
       clearDescription();
@@ -776,6 +829,12 @@ function addMatch() {
     showValid(homeNameInput);
     showValid(opponentNameInput);
     showValid(matchDatePicker);
+    showValid(timeInput);
+    numberValidation(latidudeInput, /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/);
+    numberValidation(
+      longitudeInput,
+      /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/
+    );
     alertZero();
 
     if (
@@ -785,11 +844,16 @@ function addMatch() {
       personNeededEl.classList.contains("bad") ||
       homeNameInputMsg.classList.contains("bad") ||
       opponentNameInput.classList.contains("bad") ||
-      matchDatePickerMsg.classList.contains("bad")
+      matchDatePickerMsg.classList.contains("bad") ||
+      timeInputMsg.classList.contains("bad") ||
+      latidudeInputMsg.classList.contains("bad") ||
+      longitudeInputMsg.classList.contains("bad")
     ) {
       return;
     } else {
       const newMatch = new Match(
+        +latidudeInput.value,
+        +latidudeInput.value,
         eventNameInput.value,
         homeNameInput.value,
         opponentNameInput.value,
@@ -798,7 +862,8 @@ function addMatch() {
         +personNeededEl.value,
         matchDatePicker.value,
         description.value,
-        `match-${matchesArray.length}`
+        `match-${matchesArray.length}`,
+        timeInput.value
       );
 
       console.log(newMatch);
@@ -810,6 +875,9 @@ function addMatch() {
 
       homeLogoImg.innerHTML = ``;
       opponentLogoImg.innerHTML = ``;
+
+      timeInput.value = "";
+      matchDatePicker.value = "";
 
       quantityOfPlayers = 0;
       personNeededEl.value = 0;
