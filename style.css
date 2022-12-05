@@ -11,6 +11,25 @@ body {
   overflow-x: hidden;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent rgb(0, 123, 255);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(0, 123, 255);
+  border-radius: 20px;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;

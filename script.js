@@ -86,6 +86,7 @@ closeAcademyInfoBtn.addEventListener("click", () => {
   academyInfoHolder.style.transform = `translate(0%, 0%)`;
 });
 
+
 class Team {
   constructor(name, founded, logo) {
     this.name = name;
@@ -95,6 +96,7 @@ class Team {
 
   addTeamToArray(el) {
     teamArray.push(el);
+    createdTeams.push(el);
   }
 
   addToDOM() {
@@ -237,6 +239,13 @@ let eventsArray = [];
 let academyArray = [];
 let teamArray = [];
 
+//Array for created things by you
+let createdMatches = [];
+let createdEvents = [];
+let createdAcademies = [];
+let createdTeams = [];
+let createdPlaygrounds = [];
+
 function clearSelects() {
   selectElements.forEach((element) => {
     element.value = "";
@@ -357,17 +366,21 @@ function success(position) {
   let map = L.map("map").setView([latidude, longitude], 14);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
+    minZoom: 10,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
+
+  showPlaygroundsInDOM();
+
+  showMarkers(footballPlaygrounds, playgroundIcon,map);
 
   map.on("click", (e) => {
     onMapClick(e, map);
   });
 
-  showPlaygroundsInDOM();
+  
 
-  showMarkers(footballPlaygrounds, playgroundIcon, map);
 
   playgroundSideOption.addEventListener("click", (e) => {
     moveToPopup(e, footballPlaygrounds, "playground", map);
@@ -590,6 +603,7 @@ class Event {
 
   addEventToArray(element) {
     eventsArray.push(element);
+    createdEvents.push(element);
   }
 
   addEventToDOM() {
@@ -617,6 +631,7 @@ class Place {
 
   addPlaceToArray(element) {
     footballPlaygrounds.push(element);
+    createdPlaygrounds.push(element);
   }
 
   addPlaceToDOM() {
@@ -650,6 +665,7 @@ class Academy extends Place {
 
   addAcademyToArray(element) {
     academyArray.push(element);
+    createdAcademies.push(element);
   }
 
   showAcademyInDOM() {
@@ -701,6 +717,7 @@ class Match {
 
   addMatchToArray(element) {
     matchesArray.push(element);
+    createdMatches.push(element);
   }
 
   addMatchToDOM() {
@@ -915,6 +932,7 @@ function addPlace(map) {
       );
 
       newPlace.addPlaceToArray(newPlace);
+      setLocalStorage();
       newPlace.addPlaceToDOM();
       showMarkers(footballPlaygrounds, playgroundIcon, map);
       console.log(newPlace);
@@ -989,6 +1007,7 @@ function addTeam() {
     popupForm.style.display = "none";
   }
 }
+
 
 popupSubmitBtn.addEventListener("click", () => {
   addTeam();
