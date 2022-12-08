@@ -39,7 +39,7 @@ const playgroundSideOption = document.querySelector(".side-option.playgrounds");
 const academySideOption = document.querySelector(".side-option.academies");
 let map;
 //Team searcher and creator
-const searchTeamInput = document.querySelector("#search-input");
+const searchInput = document.querySelector("#search-input");
 const searchTeamBtn = document.querySelector(".search-btn");
 const createNewTeamBtn = document.querySelector(".add-new-team.btn");
 //Form popup
@@ -76,6 +76,9 @@ const closeAcademyInfoBtn = document.querySelector(
 );
 const timeInput = document.querySelector("#match-time");
 
+//Player Container
+const resultPlayerHolder = document.querySelector(".result-player-holder");
+
 closeEventInfoBtn.addEventListener("click", () => {
   eventInfoHolder.style.opacity = 0;
   eventInfoHolder.style.transform = `translate(0%, 0%)`;
@@ -85,7 +88,6 @@ closeAcademyInfoBtn.addEventListener("click", () => {
   academyInfoHolder.style.opacity = 0;
   academyInfoHolder.style.transform = `translate(0%, 0%)`;
 });
-
 
 class Team {
   constructor(name, founded, logo) {
@@ -238,6 +240,19 @@ let matchesArray = [];
 let eventsArray = [];
 let academyArray = [];
 let teamArray = [];
+let playersArray = [
+  {
+    nickname: "Kris_2013",
+    picture:
+      "https://i.pinimg.com/564x/26/8c/09/268c098728a5a0612dec070c58129dd9.jpg",
+    position: "PO",
+  },
+  {
+    nickname: "Luftjunkie_19",
+    picture: "./Image/Profilowe.jpg",
+    position: "ŚPD",
+  },
+];
 
 //Array for created things by you
 let createdMatches = [];
@@ -252,6 +267,42 @@ function clearSelects() {
   });
 }
 clearSelects();
+
+function displayPlayers() {
+  playersArray.map((player) => {
+    const div = document.createElement("div");
+    div.classList.add("player");
+    div.innerHTML = `    
+  <div class="controll-logo">
+              <img
+                src="${player.picture}"
+                alt="Avatar Zawodnika"
+              />
+            </div>
+            <h2 class="club-name">${player.nickname}</h2>
+            <p class="position">pozycja: ${player.position}</p>
+            <button class="btn show-stats">Statistics</button>`;
+    resultPlayerHolder.append(div);
+  });
+}
+
+displayPlayers();
+
+function filterPlayers() {
+  const allPlayers = document.querySelectorAll(".player");
+
+  allPlayers.forEach((player) => {
+    let nickname = player.children[1].innerText;
+
+    if (nickname.toLowerCase().indexOf(searchInput.value.toLowerCase()) != -1) {
+      player.style.display = "flex";
+    } else {
+      player.style.display = "none";
+    }
+  });
+}
+
+searchInput.addEventListener("input", filterPlayers);
 
 function hideFirstControls() {
   for (let index = 1; index < controlFields.length; index++) {
@@ -373,14 +424,11 @@ function success(position) {
 
   showPlaygroundsInDOM();
 
-  showMarkers(footballPlaygrounds, playgroundIcon,map);
+  showMarkers(footballPlaygrounds, playgroundIcon, map);
 
   map.on("click", (e) => {
     onMapClick(e, map);
   });
-
-  
-
 
   playgroundSideOption.addEventListener("click", (e) => {
     moveToPopup(e, footballPlaygrounds, "playground", map);
@@ -932,7 +980,6 @@ function addPlace(map) {
       );
 
       newPlace.addPlaceToArray(newPlace);
-      setLocalStorage();
       newPlace.addPlaceToDOM();
       showMarkers(footballPlaygrounds, playgroundIcon, map);
       console.log(newPlace);
@@ -1007,7 +1054,6 @@ function addTeam() {
     popupForm.style.display = "none";
   }
 }
-
 
 popupSubmitBtn.addEventListener("click", () => {
   addTeam();

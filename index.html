@@ -207,24 +207,9 @@
             id="search-input"
             placeholder="Search for a player"
           />
-          <button class="search-btn">
-            Search <i class="fas fa-search"></i>
-          </button>
         </div>
 
-        <div class="result-player-holder">
-          <div class="player">
-            <div class="controll-logo">
-              <img
-                src="https://i.pinimg.com/564x/26/8c/09/268c098728a5a0612dec070c58129dd9.jpg"
-                alt="Avatar Zawodnika"
-              />
-            </div>
-            <h2 class="club-name">Kris_2013</h2>
-            <p class="position">pozycja: PO</p>
-            <button class="btn show-stats">Statistics</button>
-          </div>
-        </div>
+        <div class="result-player-holder"></div>
       </div>
 
       <div class="content-box search-teams">
@@ -561,7 +546,12 @@
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
     </script>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.4/MarkerCluster.Default.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.4/leaflet.markercluster.js"></script>
+    <script type="text/javascript" src="js/geojson.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

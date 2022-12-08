@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Luftjunkie19/Pokopmy-project#readme",
   "dependencies": {
     "firebase": "^9.14.0",
+    "geojson": "^0.5.0",
     "node-geocoder": "^4.2.0"
   }
 }
