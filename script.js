@@ -318,7 +318,7 @@ function moveToPopup(e, array, searchedStuff, map) {
 
   const searched = array.find((item) => item.dataId === searchedEl.dataset.id);
 
-  map.setView([searched.lat, searched.lng], 16, {
+  map.setView([searched.lat, searched.lng], 17, {
     animate: true,
     pan: {
       duration: 1.5,
@@ -408,13 +408,26 @@ function onMapClick(e, map) {
     .openOn(map);
 }
 
+function showMarkers(array, pinIcon, map) {
+  let markers = L.markerClusterGroup();
+
+  array.forEach((item) => {
+    markers.addLayer(
+      L.marker([item.lat, item.lng], {
+        icon: pinIcon,
+      }).bindPopup(`${item.name}`)
+    );
+    map.addLayer(markers);
+  });
+}
+
 function success(position) {
-  let latidude = position.coords.latitude;
+  let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
 
   navigationBtns[0].classList.add("active");
 
-  let map = L.map("map").setView([latidude, longitude], 14);
+  let map = L.map("map").setView([latitude, longitude], 14);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     minZoom: 10,
@@ -422,9 +435,13 @@ function success(position) {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  showPlaygroundsInDOM();
-
   showMarkers(footballPlaygrounds, playgroundIcon, map);
+
+  map.on("zoomend", function () {
+    showMarkers(footballPlaygrounds, playgroundIcon, map);
+  });
+
+  showPlaygroundsInDOM();
 
   map.on("click", (e) => {
     onMapClick(e, map);
@@ -457,16 +474,6 @@ function success(position) {
     addAcademy(map);
   });
   L.control.locate().addTo(map);
-}
-
-function showMarkers(array, pinIcon, map) {
-  array?.forEach((element) => {
-    let marker = L.marker([element.lat, element.lng], { icon: pinIcon }).addTo(
-      map
-    );
-
-    marker.bindPopup(`${element.name}`);
-  });
 }
 
 function getLocation() {

@@ -557,3 +557,12 @@ a i {
   padding: 5px;
   border-radius: 5px;
 }
+
+.marker-cluster-small,
+.marker-cluster-small div,
+.marker-cluster-medium,
+.marker-cluster-medium div,
+.marker-cluster-large,
+.marker-cluster-large div {
+  background-color: #006fd7;
+}
